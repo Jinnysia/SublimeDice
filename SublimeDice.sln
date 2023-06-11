@@ -5,7 +5,7 @@ VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SublimeDiceUI", "SublimeDiceUI\SublimeDiceUI.csproj", "{52F942F0-31B0-4031-A481-0645A3B1FE83}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SublimeTextPrototype", "SublimeTextPrototype\SublimeTextPrototype.csproj", "{142DACE3-7B2B-4DAD-8E63-6F7A01422217}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SublimeDicePrototype", "SublimeTextPrototype\SublimeDicePrototype.csproj", "{142DACE3-7B2B-4DAD-8E63-6F7A01422217}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

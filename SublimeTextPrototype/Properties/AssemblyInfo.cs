@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("SublimeTextPrototype")]
+[assembly: AssemblyTitle("SublimedICEPrototype")]
 [assembly: AssemblyDescription("Proof of concept for provable fairness with an RNG.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Jinnysia")]
-[assembly: AssemblyProduct("SublimeTextPrototype")]
+[assembly: AssemblyProduct("SublimeDicePrototype")]
 [assembly: AssemblyCopyright("Copyright © Jinnysia 2023")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
