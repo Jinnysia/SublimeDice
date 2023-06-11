@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 using System.Security.Cryptography;
 using System.Numerics;
 using ExtendedNumerics;
-
-// using ExtendedNumerics;
+using System.Security.Policy;
 
 namespace SublimeDicePrototype
 {
@@ -18,9 +17,131 @@ namespace SublimeDicePrototype
 
         public string Name { get; }
 
+        public DateTime Timestamp { get; }
+
         public ushort Boundary { get; }
 
-        public static string DisplayRoll(ushort rawRoll)
+        private ushort UnderBoundary { get; }
+
+        public bool IsRollOver { get; }
+
+        public decimal Multiplier => GetMultiplier(this.UnderBoundary);
+
+        public decimal WinChance => UnderBoundary * 1.0m / 100.0m;
+
+        public string ClientSeed { get; }
+        public string ServerSeed { get; }
+        public string ServerSeedHash { get; }
+        public ulong Nonce { get; }
+
+        public ushort RolledNumber { get; }
+        public bool Won => RolledNumber < UnderBoundary;
+
+        public Bet(ulong id, string name, ushort rawBoundary, bool isRollOver, string clientSeed, string serverSeed, ulong nonce)
+        {
+            if (rawBoundary < 200 || rawBoundary > 9800)
+            {
+                throw new ArgumentException("Raw boundary (" + rawBoundary + ") was outside of the expected range of [200, 9800].");
+            }
+
+            ID = id;
+            Name = name;
+            Timestamp = DateTime.UtcNow;
+            IsRollOver = isRollOver;
+            if (!isRollOver)
+            {
+                Boundary = rawBoundary;
+                UnderBoundary = rawBoundary;
+            }
+            else
+            {
+                Boundary = (ushort)(9999 - rawBoundary);
+                UnderBoundary = rawBoundary;
+            }
+
+            ClientSeed = clientSeed;
+            ServerSeed = serverSeed;
+            ServerSeedHash = HashString(serverSeed);
+
+            Nonce = nonce;
+
+            RolledNumber = Roll(clientSeed, nonce, serverSeed);
+        }
+
+        private static ushort Roll(string clientSeed, ulong nonce, string serverSeed)
+        {
+            int min = 0;
+            int max = 9999;
+            string hash = HMACHashString(clientSeed + ":" + nonce, serverSeed);
+            BigInteger decHash = ConvertToBase10(hash);
+            BigDecimal dividend = new BigDecimal(decHash, BigInteger.One); // hashInDec
+            BigDecimal divisor = BigDecimal.Pow(new BigDecimal(16), new BigInteger(hash.Length));
+            BigDecimal scaled = BigDecimal.Divide(dividend, divisor);
+            decimal scaledDecimal = (decimal)scaled;
+            decimal result = 0.0m + min + scaledDecimal * (max - min);
+            return (ushort)result;
+        }
+
+        public static ushort VerifyRoll(string clientSeed, ulong nonce, string serverSeed)
+        {
+            return Roll(clientSeed, nonce, serverSeed);
+        }
+
+        private static string HashString(string input)
+        {
+            using (SHA256Managed sha256 = new SHA256Managed())
+            {
+                byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(input));
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < bytes.Length; i++)
+                {
+                    sb.Append(bytes[i].ToString("x2"));
+                }
+                return sb.ToString();
+            }
+        }
+
+        private static string HMACHashString(string input, string key)
+        {
+            byte[] keyBytes = Encoding.UTF8.GetBytes(key);
+            using (HMACSHA256 hmacsha256 = new HMACSHA256(keyBytes))
+            {
+                byte[] bytes = hmacsha256.ComputeHash(Encoding.UTF8.GetBytes(input));
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < bytes.Length; i++)
+                {
+                    sb.Append(bytes[i].ToString("x2"));
+                }
+                return sb.ToString();
+            }
+        }
+
+        private static BigInteger ConvertToBase10(string hexValue)
+        {
+            // Must prepend a 0 so that the MSB is recognized as positive
+            // The value will be recognized as negative if the first digit is 8-F, because the MSB will then be 1
+            return BigInteger.Parse("0" + hexValue, NumberStyles.AllowHexSpecifier);
+        }
+
+        private static int RollNumber(string hash, int min = 0, int max = 9999)
+        {
+            BigInteger decHash = ConvertToBase10(hash);
+            BigDecimal dividend = new BigDecimal(decHash, BigInteger.One); // hashInDec
+            BigDecimal divisor = BigDecimal.Pow(new BigDecimal(16), new BigInteger(hash.Length));
+            BigDecimal scaled = BigDecimal.Divide(dividend, divisor);
+            decimal scaledDecimal = (decimal)scaled;
+            decimal result = 0.0m + min + scaledDecimal * (max - min);
+            return (int)result;
+        }
+
+        private static decimal GetMultiplier(ushort underBoundary)
+        {
+            // 9900x^(-1)
+            double calc = (double)(9900.0m) * Math.Pow(underBoundary, -1);
+            return (decimal)calc;
+        }
+
+        public static string GetDecimalRoll(ushort rawRoll)
         {
             if (rawRoll > 9999)
             {
@@ -104,37 +225,71 @@ namespace SublimeDicePrototype
 
         static void Main(string[] args)
         {
-            /*
-            Console.Write("Enter text: ");
-            string input = Console.ReadLine();
-            string hashed = HashString(input);
-            Console.WriteLine(hashed);
-            */
+            string clientSeed = "0cc175b9c0f1b6a831c399e269772662";
+            string serverSeed = "7b50df1869c23ef7c7978a3cf6dc4b72f1a06823364b01339f23ce8e49b2017c"; // "Username-DateTime"
+            string serverSeedHash = "ca4b18ce24adf2c55fe117297d423956af764852490d862c3c4f260257279f3d";
+            ulong nonce = 1;
+            ulong totalRolls = 0;
 
-            string hex = "78ed9330f00055f15765cb141088f316d507204a745ad4800fd719fcbfca071a";
-            string hex2 = "78ed9330f00055f15765cb141088f316d507204a745ad4800fd719fcbfca071b";
-            //Console.WriteLine(ConvertToBase10(hex).ToString());
-            //Console.WriteLine(ConvertToBase10(hex2).ToString());
+            ConsoleColor defaultColor = Console.ForegroundColor;
 
-            // Console.WriteLine(ConvertToBase10("fa37dc90"));
+            ConsoleKeyInfo cki;
+            do
+            {
+                Console.WriteLine("Client seed:          " + clientSeed);
+                Console.WriteLine("Server seed (hashed): " + serverSeedHash);
+                Console.WriteLine("Current nonce:        " + nonce);
+                ushort bounds = 0;
+                /*
+                Console.Write("Input boundary:     > ");
+                while (!ushort.TryParse(Console.ReadLine(), out bounds) || (bounds < 200 || bounds > 9800))
+                {
+                    Console.Write("Invalid boundary... > ");
+                }
+                */
+                bounds = 4950;
 
-            RollNumber(hex, 0, 9999);
+                Bet b = new Bet(totalRolls + nonce, "You", bounds, false, clientSeed, serverSeed, nonce);
+                Console.Write("Roll:                 " + Bet.GetDecimalRoll(b.RolledNumber) + " (" + b.RolledNumber + ") ");
 
-            Console.WriteLine(Bet.DisplayRoll(2));
-            Console.WriteLine(Bet.DisplayRoll(9));
-            Console.WriteLine(Bet.DisplayRoll(10));
-            Console.WriteLine(Bet.DisplayRoll(12));
-            Console.WriteLine(Bet.DisplayRoll(80));
-            Console.WriteLine(Bet.DisplayRoll(99));
-            Console.WriteLine(Bet.DisplayRoll(100));
-            Console.WriteLine(Bet.DisplayRoll(500));
-            Console.WriteLine(Bet.DisplayRoll(990));
-            Console.WriteLine(Bet.DisplayRoll(999));
-            Console.WriteLine(Bet.DisplayRoll(1000));
-            Console.WriteLine(Bet.DisplayRoll(1001));
-            Console.WriteLine(Bet.DisplayRoll(7831));
+                if (b.Won)
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("Win!");
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Loss...");
+                }
 
+                Console.ForegroundColor = defaultColor;
+                Console.Write("Verifying roll...     ");
+                ushort verifyResult = Bet.VerifyRoll(clientSeed, nonce, serverSeed);
+                Console.Write(Bet.GetDecimalRoll(verifyResult) + " (" + verifyResult + ") ");
+                if (verifyResult == b.RolledNumber)
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("Verified!");
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Could not verify!!!");
+                }
+                Console.ForegroundColor = defaultColor;
+
+                Console.WriteLine("Incrementing nonce.");
+                nonce++;
+
+                Console.Write("Press Q to quit, any other key to continue... > ");
+
+                cki = Console.ReadKey();
+                Console.WriteLine();
+            } while (cki.Key != ConsoleKey.Q);
+            Console.WriteLine("Done. Press any key to exit");
             Console.ReadKey(true);
+            Console.WriteLine("Bye");
         }
     }
 }
