@@ -11,6 +11,146 @@ using System.Security.Policy;
 
 namespace SublimeDicePrototype
 {
+    public static class LocalCrypto
+    {
+
+        private static readonly char[] charsFullAlphanumeric = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".ToCharArray();
+        private static readonly char[] charsLowercaseAlphanumeric = "abcdefghijklmnopqrstuvwxyz1234567890".ToCharArray();
+        private static readonly char[] charsUppercaseAlphanumeric = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".ToCharArray();
+        private static readonly char[] charsLowercaseHexadecimal = "abcdef1234567890".ToCharArray();
+        private static readonly char[] charsUppercaseHexadecimal = "ABCDEF1234567890".ToCharArray();
+
+        /// <summary>
+        /// Determines the set of <see langword="char"/>s to be used in several string generation methods.
+        /// </summary>
+        public enum Charset
+        {
+            /// <summary>
+            /// Indicates all alphanumeric characters, including uppercase and lowercase letters, equivalent to [a-zA-Z0-9].
+            /// </summary>
+            All,
+            /// <summary>
+            /// Indicates lowercase letters and numbers, equivalent to [a-z0-9].
+            /// </summary>
+            AlphanumericLowercase,
+            /// <summary>
+            /// Indicates uppercase letters and numbers, equivalent to [A-Z0-9].
+            /// </summary>
+            AlphanumericUppercase,
+            /// <summary>
+            /// Indicates hexadecimal digits with lowercase letters, equivalent to [a-f0-9].
+            /// </summary>
+            HexadecimalLowercase,
+            /// <summary>
+            /// Indicates hexadecimal digits with uppercase letters, equivalent to [A-F0-9].
+            /// </summary>
+            HexadecimalUppercase
+        }
+
+        public static string GetCryptographicallySecureRandomString(int size, Charset set)
+        {
+            char[] charset;
+            switch (set)
+            {
+                case Charset.AlphanumericLowercase:
+                    charset = charsLowercaseAlphanumeric;
+                    break;
+                case Charset.AlphanumericUppercase:
+                    charset = charsUppercaseAlphanumeric;
+                    break;
+                case Charset.HexadecimalLowercase:
+                    charset = charsLowercaseHexadecimal;
+                    break;
+                case Charset.HexadecimalUppercase:
+                    charset = charsUppercaseHexadecimal;
+                    break;
+                default:
+                    charset = charsFullAlphanumeric;
+                    break;
+            }
+
+            byte[] data = new byte[4 * size];
+            using (RandomNumberGenerator crypto = RandomNumberGenerator.Create())
+            {
+                crypto.GetBytes(data);
+            }
+            StringBuilder result = new StringBuilder(size);
+            for (int i = 0; i < size; i++)
+            {
+                uint rnd = BitConverter.ToUInt32(data, i * 4);
+                long idx = rnd % charset.Length;
+
+                result.Append(charset[idx]);
+            }
+
+            return result.ToString();
+        }
+
+        public static string GenerateHashOfString(string input)
+        {
+            using (SHA256Managed sha256 = new SHA256Managed())
+            {
+                byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(input));
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < bytes.Length; i++)
+                {
+                    sb.Append(bytes[i].ToString("x2"));
+                }
+                return sb.ToString();
+            }
+        }
+
+        public static string GenerateHMACHashedString(string input, string key)
+        {
+            byte[] keyBytes = Encoding.UTF8.GetBytes(key);
+            using (HMACSHA256 hmacsha256 = new HMACSHA256(keyBytes))
+            {
+                byte[] bytes = hmacsha256.ComputeHash(Encoding.UTF8.GetBytes(input));
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < bytes.Length; i++)
+                {
+                    sb.Append(bytes[i].ToString("x2"));
+                }
+                return sb.ToString();
+            }
+        }
+    }
+
+    public class KeyPair
+    {
+        public string PlayerSeed { get; }
+        public string ServerSeedHash { get; }
+        private string ServerSeed { get; }
+
+        public bool Expired { get; private set; }
+
+        public KeyPair(string playerSeed)
+        {
+            PlayerSeed = playerSeed;
+            Expired = false;
+            
+            // Generate random string for server seed
+            ServerSeed = LocalCrypto.GetCryptographicallySecureRandomString(64, LocalCrypto.Charset.HexadecimalLowercase);
+            ServerSeedHash = LocalCrypto.GenerateHashOfString(ServerSeed);
+        }
+
+        public string GetServerSeed()
+        {
+            if (!Expired)
+            {
+                Expired = true;
+            }
+            return this.ServerSeed;
+        }
+    }
+
+    public class Player
+    {
+        public string Name { get; }
+        public KeyPair Keys { get; private set; }
+
+    }
+
     public class Bet
     {
         public ulong ID { get; }
@@ -61,7 +201,7 @@ namespace SublimeDicePrototype
 
             ClientSeed = clientSeed;
             ServerSeed = serverSeed;
-            ServerSeedHash = HashString(serverSeed);
+            ServerSeedHash = LocalCrypto.GenerateHashOfString(serverSeed);
 
             Nonce = nonce;
 
@@ -72,7 +212,7 @@ namespace SublimeDicePrototype
         {
             int min = 0;
             int max = 9999;
-            string hash = HMACHashString(clientSeed + ":" + nonce, serverSeed);
+            string hash = LocalCrypto.GenerateHMACHashedString(clientSeed + ":" + nonce, serverSeed);
             BigInteger decHash = ConvertToBase10(hash);
             BigDecimal dividend = new BigDecimal(decHash, BigInteger.One); // hashInDec
             BigDecimal divisor = BigDecimal.Pow(new BigDecimal(16), new BigInteger(hash.Length));
@@ -85,35 +225,6 @@ namespace SublimeDicePrototype
         public static ushort VerifyRoll(string clientSeed, ulong nonce, string serverSeed)
         {
             return Roll(clientSeed, nonce, serverSeed);
-        }
-
-        private static string HashString(string input)
-        {
-            using (SHA256Managed sha256 = new SHA256Managed())
-            {
-                byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(input));
-                StringBuilder sb = new StringBuilder();
-                for (int i = 0; i < bytes.Length; i++)
-                {
-                    sb.Append(bytes[i].ToString("x2"));
-                }
-                return sb.ToString();
-            }
-        }
-
-        private static string HMACHashString(string input, string key)
-        {
-            byte[] keyBytes = Encoding.UTF8.GetBytes(key);
-            using (HMACSHA256 hmacsha256 = new HMACSHA256(keyBytes))
-            {
-                byte[] bytes = hmacsha256.ComputeHash(Encoding.UTF8.GetBytes(input));
-                StringBuilder sb = new StringBuilder();
-                for (int i = 0; i < bytes.Length; i++)
-                {
-                    sb.Append(bytes[i].ToString("x2"));
-                }
-                return sb.ToString();
-            }
         }
 
         private static BigInteger ConvertToBase10(string hexValue)
