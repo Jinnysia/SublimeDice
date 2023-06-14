@@ -17,6 +17,7 @@ namespace SublimeDiceLocal
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             // Generate application files on local storage
+            
             // TODO: Login
             Application.Run(new FormMain());
         }
