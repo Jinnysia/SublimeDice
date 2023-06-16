@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("SublimeDiceUI")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Sublime Dice")]
+[assembly: AssemblyDescription("Funny little dice roller.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("HP")]
-[assembly: AssemblyProduct("SublimeDiceUI")]
-[assembly: AssemblyCopyright("Copyright © HP 2023")]
+[assembly: AssemblyCompany("Jinnysia")]
+[assembly: AssemblyProduct("Sublime Dice")]
+[assembly: AssemblyCopyright("Copyright © Jinnysia 2023")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

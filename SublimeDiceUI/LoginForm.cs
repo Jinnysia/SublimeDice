@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace SublimeDiceUI
 {
-    public partial class Form1 : Form
+    public partial class LoginForm : MetroFramework.Forms.MetroForm
     {
-        public Form1()
+        public LoginForm()
         {
             InitializeComponent();
         }
