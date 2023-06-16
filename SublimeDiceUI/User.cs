@@ -12,7 +12,7 @@ namespace SublimeDiceUI
         SessionToken
     }
 
-    internal class User
+    public class User
     {
         public Tuple<AuthenticationType, string> AuthenticationMethod { get; private set; }
 
