@@ -32,6 +32,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\Icon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="MetroFramework, Version=1.4.0.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
       <HintPath>..\packages\MetroModernUI.1.4.0.0\lib\net\MetroFramework.dll</HintPath>
@@ -100,6 +103,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -114,6 +118,192 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Spin-1s-200px.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-57.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-28.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-30.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-31.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-33.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-34.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-35.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-36.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-37.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-38.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-39.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-40.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-41.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-42.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-43.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-44.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-45.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-46.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-47.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-49.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-51.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-52.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-53.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-54.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-55.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-56.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-58.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-59.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-60.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-6.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-7.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-8.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-9.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-10.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-11.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-12.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-13.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-14.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-15.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-17.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-18.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-19.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-20.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-21.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-22.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-23.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-25.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-26.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame-27.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
