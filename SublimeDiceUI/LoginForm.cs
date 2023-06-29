@@ -53,7 +53,7 @@ namespace SublimeDiceUI
             }
         }
 
-        private void textBox_KeyUp(object sender, KeyEventArgs e)
+        private void textBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
