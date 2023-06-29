@@ -39,6 +39,8 @@ When the game starts, a number between `0.00` and `99.99` (both inclusive) is ro
 
 Players are welcome and encouraged to verify their bets. If you are unfamiliar with the **provably fair** algorithm, feel free to [read this short article](https://sublimedice.com/#fairness).
 
+If a player falls below ¢10 credits, they can utilize the **Faucet** which debits ¢100 into their account. This feature can only be used every 5 minutes.
+
 ## Planned Features
 * Auto-roller
     * Strategy editor (Martingale, Delayed Martingale, Paroli, D 'Alembert, Labouchere, etc.)
