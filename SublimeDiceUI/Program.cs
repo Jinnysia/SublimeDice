@@ -9,10 +9,6 @@ namespace SublimeDiceUI
 {
     internal static class Program
     {
-        static string localAppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-        static string appDataFolder = Path.Combine(localAppData, "Sublime Dice");
-        static string sessionTokenFilePath = Path.Combine(appDataFolder, "session_token.txt");
-
         public static string Version => FormatProgramVersion(typeof(Program).Assembly.GetName().Version);
 
         private static string FormatProgramVersion(Version v)
@@ -43,23 +39,21 @@ namespace SublimeDiceUI
             Application.SetCompatibleTextRenderingDefault(false);
             
             Connection connection = new Connection();
+            SaveData saveData = new SaveData();
+
+            // TODO: LOGIN
+
+            // TODO: Check if session token exists and is valid
 
             // Application.Run(new LoginForm(connection));
 
-            // Generate app data folder if it doesn't exist
-            // TODO: Save client seed locally
-            if (!Directory.Exists(appDataFolder))
-            {
-                Directory.CreateDirectory(appDataFolder);
-            }
-
-            // Check if session token exists and is valid
-            if (File.Exists(sessionTokenFilePath))
-            {
-
-            }
-
             // Application.Run(new LoginForm());
+
+            // TODO: GET/SET CLIENT SEED
+
+            // TODO: RUN GAME FORM
+
+            // TODO: CLEAN UP / SAVE FILES
         }
     }
 }

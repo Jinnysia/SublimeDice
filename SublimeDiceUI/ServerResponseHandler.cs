@@ -36,7 +36,18 @@ namespace SublimeDiceUI
             };
             return JsonSerializer.Serialize(response);
         }
-        
+
+        public static string GenerateGenericErrorJSONString(Exception e)
+        {
+            ResponseMessage response = new ResponseMessage
+            {
+                status = "NG-G",
+                title = "An exception occurred",
+                message = "The client ran into an error because of a thrown " + e.GetType().Name + "." + Environment.NewLine + e.Message
+            };
+            return JsonSerializer.Serialize(response);
+        }
+
         public static ResponseStatus DisplayMessageBox(string response)
         {
             ResponseStatus result = ResponseStatus.Undefined;
@@ -63,7 +74,7 @@ namespace SublimeDiceUI
                     MessageBox.Show(message, title, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     result = ResponseStatus.Error;
                 }
-                else if (status == "NG-C")
+                else if (status == "NG-C" || status == "NG-G")
                 {
                     MessageBox.Show(message, title, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     result = ResponseStatus.ConnectionError;
