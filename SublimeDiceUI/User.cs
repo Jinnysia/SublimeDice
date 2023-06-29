@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace SublimeDiceUI
 {
@@ -14,6 +15,10 @@ namespace SublimeDiceUI
 
     public class User
     {
+        public static int UsernameLengthMin => 5;
+        public static int UsernameLengthMax => 30;
+        public static int PasswordLengthMin => 6;
+
         public Tuple<AuthenticationType, string> AuthenticationMethod { get; private set; }
 
         public uint ID { get; private set; }
@@ -33,6 +38,14 @@ namespace SublimeDiceUI
             ServerSeedHash = serverSeedHash;
             Nonce = nonce;
             AuthenticationMethod = new Tuple<AuthenticationType, string>(authType, authString);
+        }
+
+        public static bool IsValidUsernameForRegistration(string username)
+        {
+            if (username.Length < UsernameLengthMin || username.Length > UsernameLengthMax)
+                return false;
+            string pattern = @"^[A-Za-z0-9]{5,30}$";
+            return Regex.IsMatch(username, pattern);
         }
     }
 }

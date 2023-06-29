@@ -250,9 +250,9 @@
             this.labelPasswordFooter.FontSize = MetroFramework.MetroLabelSize.Small;
             this.labelPasswordFooter.Location = new System.Drawing.Point(31, 169);
             this.labelPasswordFooter.Name = "labelPasswordFooter";
-            this.labelPasswordFooter.Size = new System.Drawing.Size(82, 15);
+            this.labelPasswordFooter.Size = new System.Drawing.Size(156, 15);
             this.labelPasswordFooter.TabIndex = 9;
-            this.labelPasswordFooter.Text = "Make it strong.";
+            this.labelPasswordFooter.Text = "Make it strong. 6+ characters.";
             this.labelPasswordFooter.Theme = MetroFramework.MetroThemeStyle.Dark;
             // 
             // RegisterForm

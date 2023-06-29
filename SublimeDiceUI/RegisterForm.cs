@@ -96,15 +96,27 @@ namespace SublimeDiceUI
                 return;
             }
 
-            if (textBoxUsername.Text.Length < 5 || textBoxUsername.Text.Length > 30)
+            if (textBoxUsername.Text.Length < User.UsernameLengthMin || textBoxUsername.Text.Length > User.UsernameLengthMax)
             {
                 MessageBox.Show("Please ensure that your username is between 5 and 30 characters in length.", "Invalid username", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                return;
+            }
+
+            if (!User.IsValidUsernameForRegistration(textBoxUsername.Text))
+            {
+                MessageBox.Show("Please ensure that your username only contains alphanumeric characters.", "Invalid username", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 return;
             }
 
             if (textBoxPassword.Text != textBoxPasswordConfirm.Text)
             {
                 MessageBox.Show("Your passwords do not match.", "Password mismatch", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                return;
+            }
+
+            if (textBoxPassword.Text.Length < User.PasswordLengthMin)
+            {
+                MessageBox.Show("Your password should be at least 6 characters long.", "Invalid password", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 return;
             }
 
