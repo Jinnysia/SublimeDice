@@ -35,7 +35,7 @@ Every account starts with ¢500 Sublime Credits.
 
 A player will set their wager: a prediction consisting of a numeric boundary and a direction. For example, "I predict the roll will be below 25." Alongside this, a player will provide the amount of credits they wish to wager.
 
-When the game starts, a number between `0.00` and `99.99` (both inclusive) is rolled. If the rolled number is within the player's prediction, they win. The payout is a multiplier based on how "risky" their prediction was. If their win chance was ~50%, then their payout is 2x. However, if their win chance was only 25%, then their payout increases to 4x.
+When the game starts, a number between `0.00` and `99.99` (both inclusive) is rolled. If the rolled number is within the player's prediction, they win. The payout is a multiplier based on how "risky" their prediction was. If their win chance was ~50%, their payout is 2x. However, if their win chance was only 25%, then their payout increases to 4x.
 
 Players are welcome and encouraged to verify their bets. If you are unfamiliar with the **provably fair** algorithm, feel free to [read this short article](https://sublimedice.com/#fairness).
 
