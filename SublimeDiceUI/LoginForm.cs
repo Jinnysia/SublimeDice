@@ -23,6 +23,7 @@ namespace SublimeDiceUI
         {
             InitializeComponent();
             LoadImages();
+            pictureBoxProgress.Image = null;
             time.Interval = 16; // 17
             time.Tick += time_Tick;
             this.connection = connection;
@@ -65,6 +66,10 @@ namespace SublimeDiceUI
             pictureBoxProgress.Visible = locked;
             buttonLogin.Enabled = !locked;
             buttonRegister.Enabled = !locked;
+            if (locked)
+                time.Start();
+            else
+                time.Stop();
         }
 
         private async void buttonLogin_Click(object sender, EventArgs e)
