@@ -76,13 +76,13 @@ namespace SublimeDiceUI
         {
             if (string.IsNullOrWhiteSpace(textBoxUsername.Text))
             {
-                MessageBox.Show("Please enter a username.", "Invalid username.", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                MessageBox.Show("Please enter a username.", "Invalid username", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 return;
             }
 
             if (string.IsNullOrEmpty(textBoxPassword.Text))
             {
-                MessageBox.Show("Please enter a password.", "Invalid password.", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                MessageBox.Show("Please enter a password.", "Invalid password", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 return;
             }
 
