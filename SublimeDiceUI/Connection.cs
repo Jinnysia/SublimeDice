@@ -86,9 +86,17 @@ namespace SublimeDiceUI
                 }
 
                 FormUrlEncodedContent content = new FormUrlEncodedContent(encryptedPost);
-                HttpResponseMessage response = await client.PostAsync(CreateFullURL(path), content);
-                string responseText = await response.Content.ReadAsStringAsync();
-                return responseText;
+                try
+                {
+
+                    HttpResponseMessage response = await client.PostAsync(CreateFullURL(path), content);
+                    string responseText = await response.Content.ReadAsStringAsync();
+                    return responseText;
+                }
+                catch (HttpRequestException e)
+                {
+                    return ServerResponseHandler.GenerateConnectionErrorJSONString(e);
+                }
             }
         }
 

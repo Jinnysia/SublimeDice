@@ -13,11 +13,30 @@ namespace SublimeDiceUI
         Undefined,
         OK,
         Warning,
-        Error
+        Error,
+        ConnectionError
+    }
+
+    internal class ResponseMessage
+    {
+        public string status { get; set; }
+        public string title { get; set; }
+        public string message { get; set; }
     }
 
     public static class ServerResponseHandler
     {
+        public static string GenerateConnectionErrorJSONString(Exception e)
+        {
+            ResponseMessage response = new ResponseMessage
+            {
+                status = "NG-C",
+                title = "An exception occurred",
+                message = "The client was unable to complete the request because of a thrown " + e.GetType().Name + "." + Environment.NewLine + e.Message
+            };
+            return JsonSerializer.Serialize(response);
+        }
+        
         public static ResponseStatus DisplayMessageBox(string response)
         {
             ResponseStatus result = ResponseStatus.Undefined;
@@ -43,6 +62,11 @@ namespace SublimeDiceUI
                 {
                     MessageBox.Show(message, title, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     result = ResponseStatus.Error;
+                }
+                else if (status == "NG-C")
+                {
+                    MessageBox.Show(message, title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    result = ResponseStatus.ConnectionError;
                 }
                 else
                 {

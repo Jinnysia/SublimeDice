@@ -86,11 +86,13 @@ namespace SublimeDiceUI
             LockFormControls(true);
             pictureBoxProgress.Visible = true;
 
-            string response = await connection.Login(textBoxUsername.Text, AuthenticationType.Password, textBoxPassword.Text, checkBoxRetain.Checked);
+            string response = "";
+
+            response = await connection.Login(textBoxUsername.Text, AuthenticationType.Password, textBoxPassword.Text, checkBoxRetain.Checked);
 
             pictureBoxProgress.Visible = false;
-            ResponseStatus responseStatus = ServerResponseHandler.DisplayMessageBox(response);
             LockFormControls(false);
+            ResponseStatus responseStatus = ServerResponseHandler.DisplayMessageBox(response);
 
             if (responseStatus == ResponseStatus.OK)
             {
