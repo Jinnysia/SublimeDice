@@ -129,7 +129,7 @@
             this.textBoxPassword.CustomButton.Visible = false;
             this.textBoxPassword.Lines = new string[0];
             this.textBoxPassword.Location = new System.Drawing.Point(97, 126);
-            this.textBoxPassword.MaxLength = 30;
+            this.textBoxPassword.MaxLength = 32767;
             this.textBoxPassword.Name = "textBoxPassword";
             this.textBoxPassword.PasswordChar = '•';
             this.textBoxPassword.ScrollBars = System.Windows.Forms.ScrollBars.None;
@@ -164,7 +164,6 @@
             this.buttonLogin.Text = "Login";
             this.buttonLogin.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.buttonLogin.UseSelectable = true;
-            // this.buttonLogin.Click += new System.EventHandler(this.buttonLogin_Click);
             this.buttonLogin.Click += new System.EventHandler(this.buttonLogin_Click);
             // 
             // buttonRegister
