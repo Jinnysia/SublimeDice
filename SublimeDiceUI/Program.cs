@@ -41,8 +41,13 @@ namespace SublimeDiceUI
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            
+            Connection connection = new Connection();
+
+            // Application.Run(new LoginForm(connection));
 
             // Generate app data folder if it doesn't exist
+            // TODO: Save client seed locally
             if (!Directory.Exists(appDataFolder))
             {
                 Directory.CreateDirectory(appDataFolder);

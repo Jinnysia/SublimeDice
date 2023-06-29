@@ -1,6 +1,6 @@
 ﻿namespace SublimeDiceUI
 {
-    partial class LoginForm
+    partial class LoginFormCopy
     {
         /// <summary>
         /// Required designer variable.
@@ -40,7 +40,6 @@
             this.buttonLogin = new MetroFramework.Controls.MetroButton();
             this.buttonRegister = new MetroFramework.Controls.MetroButton();
             this.labelRegisterPrompt = new MetroFramework.Controls.MetroLabel();
-            this.checkBoxRetain = new MetroFramework.Controls.MetroCheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.metroStyleManager1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxProgress)).BeginInit();
             this.SuspendLayout();
@@ -160,11 +159,10 @@
             this.buttonLogin.Location = new System.Drawing.Point(199, 155);
             this.buttonLogin.Name = "buttonLogin";
             this.buttonLogin.Size = new System.Drawing.Size(54, 23);
-            this.buttonLogin.TabIndex = 7;
+            this.buttonLogin.TabIndex = 6;
             this.buttonLogin.Text = "Login";
             this.buttonLogin.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.buttonLogin.UseSelectable = true;
-            // this.buttonLogin.Click += new System.EventHandler(this.buttonLogin_Click);
             this.buttonLogin.Click += new System.EventHandler(this.buttonLogin_Click);
             // 
             // buttonRegister
@@ -172,7 +170,7 @@
             this.buttonRegister.Location = new System.Drawing.Point(199, 184);
             this.buttonRegister.Name = "buttonRegister";
             this.buttonRegister.Size = new System.Drawing.Size(54, 23);
-            this.buttonRegister.TabIndex = 9;
+            this.buttonRegister.TabIndex = 7;
             this.buttonRegister.Text = "Register";
             this.buttonRegister.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.buttonRegister.UseSelectable = true;
@@ -188,23 +186,11 @@
             this.labelRegisterPrompt.Text = "Don\'t have an account?";
             this.labelRegisterPrompt.Theme = MetroFramework.MetroThemeStyle.Dark;
             // 
-            // checkBoxRetain
-            // 
-            this.checkBoxRetain.AutoSize = true;
-            this.checkBoxRetain.Location = new System.Drawing.Point(71, 160);
-            this.checkBoxRetain.Name = "checkBoxRetain";
-            this.checkBoxRetain.Size = new System.Drawing.Size(125, 15);
-            this.checkBoxRetain.TabIndex = 6;
-            this.checkBoxRetain.Text = "Remember my info";
-            this.checkBoxRetain.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.checkBoxRetain.UseSelectable = true;
-            // 
             // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(288, 234);
-            this.Controls.Add(this.checkBoxRetain);
             this.Controls.Add(this.labelRegisterPrompt);
             this.Controls.Add(this.buttonRegister);
             this.Controls.Add(this.buttonLogin);
@@ -241,6 +227,5 @@
         private MetroFramework.Controls.MetroButton buttonLogin;
         private MetroFramework.Controls.MetroButton buttonRegister;
         private MetroFramework.Controls.MetroLabel labelRegisterPrompt;
-        private MetroFramework.Controls.MetroCheckBox checkBoxRetain;
     }
 }

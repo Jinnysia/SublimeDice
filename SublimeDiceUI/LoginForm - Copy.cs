@@ -11,21 +11,22 @@ using MetroFramework.Forms;
 
 namespace SublimeDiceUI
 {
-    public partial class LoginForm : MetroForm
+    public partial class LoginFormCopy : MetroForm
     {
-        private Connection connection;
-
         private Image[] images = new Image[60];
+        // private Image[] newImages = new Image[1200];
+        // private const int maxRotations = 20;
         private int currentImageCounter = 0;
-        Timer time = new Timer();
+        // private int currentRotateCounter = 0;
+        System.Windows.Forms.Timer time = new System.Windows.Forms.Timer();
 
-        public LoginForm(Connection connection)
+        public LoginFormCopy()
         {
             InitializeComponent();
             LoadImages();
             time.Interval = 16; // 17
+            time.Start();
             time.Tick += time_Tick;
-            this.connection = connection;
         }
 
         private void LoginForm_FormClosing(object sender, System.Windows.Forms.FormClosingEventArgs e)
@@ -42,6 +43,33 @@ namespace SublimeDiceUI
                 currentImageCounter = 0;
             }
         }
+
+        /*
+        private float GetRotateAngle(int currentImage, int currentRotate)
+        {
+            float angleSegments = 360.0f / images.Length / maxRotations;
+            return (angleSegments * images.Length * currentRotate) + (angleSegments * (currentImage + 1));
+        }
+
+        private Bitmap RotateImage(Bitmap b, float angle)
+        {
+            //create a new empty bitmap to hold rotated image
+            Bitmap returnBitmap = new Bitmap(b.Width, b.Height);
+            //make a graphics object from the empty bitmap
+            using (Graphics g = Graphics.FromImage(returnBitmap))
+            {
+                //move rotation point to center of image
+                g.TranslateTransform((float)b.Width / 2, (float)b.Height / 2);
+                //rotate
+                g.RotateTransform(angle);
+                //move image back
+                g.TranslateTransform(-(float)b.Width / 2, -(float)b.Height / 2);
+                //draw passed in image onto graphics object
+                g.DrawImage(b, new Point(0, 0));
+            }
+            return returnBitmap;
+        }
+        */
 
         private void LoadImages()
         {
@@ -60,14 +88,13 @@ namespace SublimeDiceUI
             }
         }
 
-        private void LockFormControls(bool locked)
+        private void LockButtons(bool locked)
         {
-            pictureBoxProgress.Visible = locked;
             buttonLogin.Enabled = !locked;
             buttonRegister.Enabled = !locked;
         }
 
-        private async void buttonLogin_Click(object sender, EventArgs e)
+        private void buttonLogin_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(textBoxUsername.Text))
             {
@@ -81,22 +108,13 @@ namespace SublimeDiceUI
                 return;
             }
 
-            // TODO: Check for invalid characters in password / username (also in register)
-
-            LockFormControls(true);
+            LockButtons(true);
             pictureBoxProgress.Visible = true;
 
-            string response = await connection.Login(textBoxUsername.Text, AuthenticationType.Password, textBoxPassword.Text, checkBoxRetain.Checked);
+            MessageBox.Show("User: " + textBoxUsername.Text + Environment.NewLine + "Pass: " + textBoxPassword.Text);
 
             pictureBoxProgress.Visible = false;
-            ResponseStatus responseStatus = ServerResponseHandler.DisplayMessageBox(response);
-            LockFormControls(false);
-
-            if (responseStatus == ResponseStatus.OK)
-            {
-                // Close the form
-                this.Close();
-            }
+            LockButtons(false);
         }
 
         private void buttonRegister_Click(object sender, EventArgs e)
