@@ -23,6 +23,9 @@ jobs:
     - name: Build and Publish
       run: msbuild SublimeDice.sln /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile
  
+    - name: Create Publish Folder
+      run: if not exist bin\Release\Publish mkdir bin\Release\Publish
+ 
     - name: Upload Artifact
       uses: actions/upload-artifact@v1.0.0
       with:
