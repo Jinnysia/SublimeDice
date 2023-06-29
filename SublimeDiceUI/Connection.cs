@@ -143,7 +143,8 @@ namespace SublimeDiceUI
                     string serverSeedHash = data.GetProperty("sd_current_server_seed_hash").ToString();
                     
                     // TODO: Set / retrieve Client Seed here
-                    User user = new User(id, name, balance, "", serverSeedHash, nonce, authType, authString);
+                    string clientSeed = "";
+                    User user = new User(id, name, balance, clientSeed, serverSeedHash, nonce, authType, authString);
 
                     isLoggedIn = true;
                     LoggedInUser = user;
@@ -188,14 +189,15 @@ namespace SublimeDiceUI
                     string serverSeedHash = data.GetProperty("sd_current_server_seed_hash").ToString();
                     JsonElement sessionToken;
                     // TODO: Set / retrieve Client Seed here
+                    string clientSeed = "";
                     User user;
                     if (data.TryGetProperty("session_token", out sessionToken))
                     {
-                        user = new User(id, name, balance, "", serverSeedHash, nonce, AuthenticationType.SessionToken, sessionToken.ToString());
+                        user = new User(id, name, balance, clientSeed, serverSeedHash, nonce, AuthenticationType.SessionToken, sessionToken.ToString());
                     }
                     else
                     {
-                        user = new User(id, name, balance, "", serverSeedHash, nonce, AuthenticationType.Password, password);
+                        user = new User(id, name, balance, clientSeed, serverSeedHash, nonce, AuthenticationType.Password, password);
                     }
 
                     isLoggedIn = true;
