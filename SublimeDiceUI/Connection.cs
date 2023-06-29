@@ -26,6 +26,8 @@ namespace SublimeDiceUI
         private bool _isSecure;
 
         private const string URL_Login = "login.php";
+        private const string URL_Register = "register.php";
+        private const string URL_Logout = "logout.php";
 
         public Connection()
         {
@@ -124,6 +126,50 @@ namespace SublimeDiceUI
             }
 
             string response = await SendPOSTRequest(URL_Login, body);
+            // Parse additional data
+            using (JsonDocument doc = JsonDocument.Parse(response))
+            {
+                JsonElement root = doc.RootElement;
+
+                // First check status and see if it's OK
+                if (root.GetProperty("status").ToString() == "OK")
+                {
+                    // Initialize User
+                    JsonElement data = root.GetProperty("data");
+                    uint id = uint.Parse(data.GetProperty("id").ToString());
+                    string name = data.GetProperty("username").ToString();
+                    ulong balance = ulong.Parse(data.GetProperty("sd_balance").ToString());
+                    ulong nonce = ulong.Parse(data.GetProperty("sd_current_nonce").ToString());
+                    string serverSeedHash = data.GetProperty("sd_current_server_seed_hash").ToString();
+                    
+                    // TODO: Set / retrieve Client Seed here
+                    User user = new User(id, name, balance, "", serverSeedHash, nonce, authType, authString);
+
+                    isLoggedIn = true;
+                    LoggedInUser = user;
+                }
+            }
+
+            return response;
+        }
+
+        public async Task<string> Register(string username, string password, bool retain)
+        {
+            if (isLoggedIn)
+            {
+                throw new InvalidOperationException("Cannot register if the user is already logged in.");
+            }
+
+            Dictionary<string, string> body = new Dictionary<string, string>();
+            body.Add("username", username);
+            body.Add("password", password);
+
+            if (retain)
+            {
+                body.Add("retain", "session");
+            }
+
+            string response = await SendPOSTRequest(URL_Register, body);
 
             // Parse additional data
             using (JsonDocument doc = JsonDocument.Parse(response))
@@ -140,8 +186,19 @@ namespace SublimeDiceUI
                     ulong balance = ulong.Parse(data.GetProperty("sd_balance").ToString());
                     ulong nonce = ulong.Parse(data.GetProperty("sd_current_nonce").ToString());
                     string serverSeedHash = data.GetProperty("sd_current_server_seed_hash").ToString();
+                    JsonElement sessionToken;
                     // TODO: Set / retrieve Client Seed here
-                    User user = new User(id, name, balance, "", serverSeedHash, nonce, authType, authString);
+                    User user;
+                    if (data.TryGetProperty("session_token", out sessionToken))
+                    {
+                        user = new User(id, name, balance, "", serverSeedHash, nonce, AuthenticationType.SessionToken, sessionToken.ToString());
+                    }
+                    else
+                    {
+                        user = new User(id, name, balance, "", serverSeedHash, nonce, AuthenticationType.Password, password);
+                    }
+
+                    isLoggedIn = true;
                     LoggedInUser = user;
                 }
             }
@@ -149,9 +206,34 @@ namespace SublimeDiceUI
             return response;
         }
 
-        public void Logout()
+        public async Task<string> Logout(string username, string sessionToken)
         {
-            throw new NotImplementedException("Implement Logout().");
+            if (!isLoggedIn)
+            {
+                throw new InvalidOperationException("Cannot logout if the user is not logged in.");
+            }
+
+            Dictionary<string, string> body = new Dictionary<string, string>();
+            body.Add("username", username);
+            body.Add("session_token", sessionToken);
+
+            string response = await SendPOSTRequest(URL_Logout, body);
+
+            // Parse additional data
+            using (JsonDocument doc = JsonDocument.Parse(response))
+            {
+                JsonElement root = doc.RootElement;
+
+                // First check status and see if it's OK
+                if (root.GetProperty("status").ToString() == "OK")
+                {
+                    // Logout and set user to null
+                    LoggedInUser = null;
+                    isLoggedIn = false;
+                }
+            }
+
+            return response;
         }
     }
 }
