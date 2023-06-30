@@ -1,6 +1,9 @@
 # Sublime Dice
 ![Sublime Dice logo.](SublimeDice.png "Sublime Dice provisional logo.")
 
+![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/Jinnysia/SublimeDice/build.yml) ![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/m/Jinnysia/SublimeDice) ![Static Badge](https://img.shields.io/badge/operating_hours-24%2F7-lightblue)
+
+
 Sublime Dice is a virtual dice-rolling game where perfection through simplicity is realized.
 
 *Hark, one and all, and come to attend the grand unveiling of the Sublime Casino, where all are bid welcome, without prejudice or distinction. We entreat each soul to revel in mirth and merriment within these hallowed halls.*
