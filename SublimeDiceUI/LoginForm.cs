@@ -86,8 +86,6 @@ namespace SublimeDiceUI
                 return;
             }
 
-            // TODO: Check for invalid characters in password / username (also in register)
-
             LockFormControls(true);
             pictureBoxProgress.Visible = true;
 
