@@ -19,8 +19,9 @@ namespace SublimeDiceUI
     public class Connection
     {
         public User LoggedInUser { get; private set; }
+        public SaveData SavedData { get; private set; }
 
-        private bool isLoggedIn = false;
+        public bool IsLoggedIn { get; private set; }
 
         private string _connectionDomain;
         private bool _isSecure;
@@ -29,14 +30,17 @@ namespace SublimeDiceUI
         private const string URL_Register = "register.php";
         private const string URL_Logout = "logout.php";
 
-        public Connection()
+        public Connection(SaveData savedData)
         {
+            IsLoggedIn = false;
             _connectionDomain = "localhost";
             _isSecure = false;
+            SavedData = savedData;
         }
 
-        public Connection(string domain, bool secure)
+        public Connection(string domain, bool secure, SaveData savedData)
         {
+            IsLoggedIn = false;
             // Check domain
             // Using this regex:
             // ^(((?!-))(xn--|_)?[a-z0-9-]{0,61}[a-z0-9]{1,1}\.)*(xn--)?([a-z0-9][a-z0-9\-]{0,60}|[a-z0-9-]{1,30}\.[a-z]{2,})$
@@ -66,6 +70,8 @@ namespace SublimeDiceUI
                 _connectionDomain = domain;
                 _isSecure = secure;
             }
+
+            SavedData = savedData;
         }
 
         private string CreateFullURL(string path)
@@ -104,7 +110,7 @@ namespace SublimeDiceUI
 
         public async Task<string> Login(string username, AuthenticationType authType, string authString, bool retain)
         {
-            if (isLoggedIn)
+            if (IsLoggedIn)
             {
                 throw new InvalidOperationException("Cannot login if the user is already logged in.");
             }
@@ -141,12 +147,24 @@ namespace SublimeDiceUI
                     ulong balance = ulong.Parse(data.GetProperty("sd_balance").ToString());
                     ulong nonce = ulong.Parse(data.GetProperty("sd_current_nonce").ToString());
                     string serverSeedHash = data.GetProperty("sd_current_server_seed_hash").ToString();
-                    
+                    JsonElement sessionToken;
+
                     // TODO: Set / retrieve Client Seed here
                     string clientSeed = "";
-                    User user = new User(id, name, balance, clientSeed, serverSeedHash, nonce, authType, authString);
+                    User user;
+                    // User user = new User(id, name, balance, clientSeed, serverSeedHash, nonce, authType, authString);
+                    if (data.TryGetProperty("session_token", out sessionToken))
+                    {
+                        user = new User(id, name, balance, clientSeed, serverSeedHash, nonce, AuthenticationType.SessionToken, sessionToken.ToString());
+                        SavedData.UpdateSessionToken(sessionToken.ToString());
+                    }
+                    else
+                    {
+                        user = new User(id, name, balance, clientSeed, serverSeedHash, nonce, AuthenticationType.Password, authString);
+                        SavedData.UpdateSessionToken();
+                    }
 
-                    isLoggedIn = true;
+                    IsLoggedIn = true;
                     LoggedInUser = user;
                 }
             }
@@ -156,7 +174,7 @@ namespace SublimeDiceUI
 
         public async Task<string> Register(string username, string password, bool retain)
         {
-            if (isLoggedIn)
+            if (IsLoggedIn)
             {
                 throw new InvalidOperationException("Cannot register if the user is already logged in.");
             }
@@ -194,13 +212,15 @@ namespace SublimeDiceUI
                     if (data.TryGetProperty("session_token", out sessionToken))
                     {
                         user = new User(id, name, balance, clientSeed, serverSeedHash, nonce, AuthenticationType.SessionToken, sessionToken.ToString());
+                        SavedData.UpdateSessionToken(sessionToken.ToString());
                     }
                     else
                     {
                         user = new User(id, name, balance, clientSeed, serverSeedHash, nonce, AuthenticationType.Password, password);
+                        SavedData.UpdateSessionToken();
                     }
 
-                    isLoggedIn = true;
+                    IsLoggedIn = true;
                     LoggedInUser = user;
                 }
             }
@@ -210,7 +230,7 @@ namespace SublimeDiceUI
 
         public async Task<string> Logout(string username, string sessionToken)
         {
-            if (!isLoggedIn)
+            if (!IsLoggedIn)
             {
                 throw new InvalidOperationException("Cannot logout if the user is not logged in.");
             }
@@ -231,7 +251,10 @@ namespace SublimeDiceUI
                 {
                     // Logout and set user to null
                     LoggedInUser = null;
-                    isLoggedIn = false;
+                    IsLoggedIn = false;
+
+                    // Update saved session token
+                    SavedData.UpdateSessionToken();
                 }
             }
 

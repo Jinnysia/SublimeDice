@@ -38,20 +38,60 @@ namespace SublimeDiceUI
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             
-            Connection connection = new Connection();
             SaveData saveData = new SaveData();
+            Connection connection = new Connection(saveData);
 
-            // TODO: LOGIN
+            if (saveData.SessionTokenFileExists())
+            {
+                string sessionToken = "";
+                if (saveData.GetSessionToken(out sessionToken))
+                {
+                    string username = saveData.GetUsernameFromSessionToken(sessionToken);
+                    if (!string.IsNullOrWhiteSpace(username))
+                    {
+                        string response = await connection.Login(username, AuthenticationType.SessionToken, sessionToken, true);
+                        ResponseStatus responseStatus = ServerResponseHandler.DisplayMessageBox(response);
+                        if (responseStatus == ResponseStatus.OK)
+                        {
+                            // Logged in!
+                        }
+                        else
+                        {
+                            // Session token expired or was invalid, remove it
+                            saveData.UpdateSessionToken();
+                        }
+                    }
+                }
+                else
+                {
+                    // Session token file was invalid or unable to be read
+                    saveData.UpdateSessionToken();
+                }
+            }
 
-            // TODO: Check if session token exists and is valid
+            if (!connection.IsLoggedIn)
+            {
+                Application.Run(new LoginForm(connection));
+            }
 
-            // Application.Run(new LoginForm(connection));
+            if (connection.IsLoggedIn)
+            {
+                // Get client seed
+                if (saveData.ClientSeedFileExists())
+                {
+                    string clientSeed = saveData.GetClientSeed(connection.LoggedInUser);
+                    if (string.IsNullOrWhiteSpace(clientSeed))
+                    {
+                        saveData.UpdateClientSeed(saveData.GenerateNewClientSeed(connection.LoggedInUser));
+                    }
+                    else
+                    {
+                        
+                    }
+                }
 
-            // Application.Run(new LoginForm());
-
-            // TODO: GET/SET CLIENT SEED
-
-            // TODO: RUN GAME FORM
+                // TODO: RUN GAME FORM
+            }
 
             // TODO: CLEAN UP / SAVE FILES
         }

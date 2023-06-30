@@ -91,6 +91,7 @@ namespace SublimeDiceUI
 
             string response = "";
 
+            // TODO: Potentially include this in the Login method
             response = await connection.Login(textBoxUsername.Text, AuthenticationType.Password, textBoxPassword.Text, checkBoxRetain.Checked);
 
             pictureBoxProgress.Visible = false;

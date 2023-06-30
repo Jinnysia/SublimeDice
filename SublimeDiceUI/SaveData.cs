@@ -15,6 +15,8 @@ namespace SublimeDiceUI
         public static string Filepath_SessionToken => Path.Combine(Directory_AppDataFolder, "session_token.txt");
         public static string Filepath_ClientSeed => Path.Combine(Directory_AppDataFolder, "client_seed.txt");
 
+        public string CurrentClientSeed { get; set; }
+
         public SaveData()
         {
             CreateAppDataDirectoryIfNotExists();
@@ -67,6 +69,25 @@ namespace SublimeDiceUI
             return false;
         }
 
+        public string GetUsernameFromSessionToken(string sessionToken)
+        {
+            string result = "";
+            if (string.IsNullOrWhiteSpace(sessionToken))
+            {
+                result = "";
+            }
+            else if (sessionToken.Split('|').Length < 2)
+            {
+                result = "";
+            }
+            else
+            {
+                result = Encoding.UTF8.GetString(Convert.FromBase64String(sessionToken.Split('|')[0]));
+            }
+
+            return result;
+        }
+
         public bool UpdateSessionToken(string newSessionToken = "")
         {
             try
@@ -93,6 +114,7 @@ namespace SublimeDiceUI
                 if (!string.IsNullOrWhiteSpace(text))
                 {
                     clientSeed = text;
+                    CurrentClientSeed = text;
                 }
             }
             catch (Exception e)
@@ -113,7 +135,12 @@ namespace SublimeDiceUI
             try
             {
                 CreateAppDataDirectoryIfNotExists();
+                if (newClientSeed.Length == 0)
+                {
+                    throw new Exception("Client seed cannot be blank.");
+                }
                 File.WriteAllText(Filepath_ClientSeed, newClientSeed);
+                CurrentClientSeed = newClientSeed;
                 return true;
             }
             catch (Exception e)
