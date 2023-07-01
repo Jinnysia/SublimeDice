@@ -40,9 +40,9 @@ namespace SublimeDiceUI
             return File.Exists(Filepath_ClientSeed);
         }
 
-        public string GenerateNewClientSeed(User user)
+        public string GenerateNewClientSeed(string username)
         {
-            return user.Username + ":" + CryptoSafeRNG.GetCryptographicallySecureRandomString(32, Charset.HexadecimalLowercase);
+            return username + ":" + CryptoSafeRNG.GetCryptographicallySecureRandomString(32, Charset.HexadecimalLowercase);
         }
 
         public bool GetSessionToken(out string sessionToken)
@@ -105,7 +105,7 @@ namespace SublimeDiceUI
             return false;
         }
 
-        public string GetClientSeed(User user)
+        public string GetClientSeedFromFile(string username)
         {
             string clientSeed = null;
             try
@@ -123,14 +123,14 @@ namespace SublimeDiceUI
                 ServerResponseHandler.DisplayMessageBox(ServerResponseHandler.GenerateGenericErrorJSONString(e));
                 // WARN: Maybe consider making this throw?
                 */
-                clientSeed = GenerateNewClientSeed(user);
+                clientSeed = GenerateNewClientSeed(username);
             }
 
-            UpdateClientSeed(clientSeed);
+            UpdateClientSeedToFile(clientSeed);
             return clientSeed;
         }
 
-        public bool UpdateClientSeed(string newClientSeed = "")
+        public bool UpdateClientSeedToFile(string newClientSeed = "")
         {
             try
             {

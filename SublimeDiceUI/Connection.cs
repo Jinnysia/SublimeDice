@@ -108,6 +108,32 @@ namespace SublimeDiceUI
             }
         }
 
+        public string ResolveClientSeed(string username)
+        {
+            string clientSeed = "";
+            if (SavedData.ClientSeedFileExists())
+            {
+                clientSeed = SavedData.GetClientSeedFromFile(username);
+                if (string.IsNullOrWhiteSpace(clientSeed))
+                {
+                    clientSeed = SavedData.GenerateNewClientSeed(username);
+                    SavedData.UpdateClientSeedToFile(clientSeed);
+                }
+            }
+            else
+            {
+                clientSeed = SavedData.GenerateNewClientSeed(username);
+                SavedData.UpdateClientSeedToFile(clientSeed);
+            }
+
+            return clientSeed;
+        }
+
+        public void UpdateClientSeed(string newClientSeed)
+        {
+            SavedData.UpdateClientSeedToFile(newClientSeed);
+        }
+
         public async Task<string> Login(string username, AuthenticationType authType, string authString, bool retain)
         {
             if (IsLoggedIn)
@@ -149,8 +175,7 @@ namespace SublimeDiceUI
                     string serverSeedHash = data.GetProperty("sd_current_server_seed_hash").ToString();
                     JsonElement sessionToken;
 
-                    // TODO: Set / retrieve Client Seed here
-                    string clientSeed = "";
+                    string clientSeed = ResolveClientSeed(name);
                     User user;
                     // User user = new User(id, name, balance, clientSeed, serverSeedHash, nonce, authType, authString);
                     if (data.TryGetProperty("session_token", out sessionToken))
@@ -206,8 +231,8 @@ namespace SublimeDiceUI
                     ulong nonce = ulong.Parse(data.GetProperty("sd_current_nonce").ToString());
                     string serverSeedHash = data.GetProperty("sd_current_server_seed_hash").ToString();
                     JsonElement sessionToken;
-                    // TODO: Set / retrieve Client Seed here
-                    string clientSeed = "";
+
+                    string clientSeed = ResolveClientSeed(name);
                     User user;
                     if (data.TryGetProperty("session_token", out sessionToken))
                     {
@@ -238,6 +263,7 @@ namespace SublimeDiceUI
             Dictionary<string, string> body = new Dictionary<string, string>();
             body.Add("username", username);
             body.Add("session_token", sessionToken);
+            MessageBox.Show("Sending session token:" + Environment.NewLine + sessionToken);
 
             string response = await SendPOSTRequest(URL_Logout, body);
 
@@ -254,6 +280,10 @@ namespace SublimeDiceUI
                     IsLoggedIn = false;
 
                     // Update saved session token
+                    SavedData.UpdateSessionToken();
+                }
+                else
+                {
                     SavedData.UpdateSessionToken();
                 }
             }
