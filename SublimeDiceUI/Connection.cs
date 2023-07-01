@@ -263,7 +263,6 @@ namespace SublimeDiceUI
             Dictionary<string, string> body = new Dictionary<string, string>();
             body.Add("username", username);
             body.Add("session_token", sessionToken);
-            MessageBox.Show("Sending session token:" + Environment.NewLine + sessionToken);
 
             string response = await SendPOSTRequest(URL_Logout, body);
 
