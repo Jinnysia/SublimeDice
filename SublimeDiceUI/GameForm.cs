@@ -11,7 +11,7 @@ using MetroFramework.Forms;
 
 namespace SublimeDiceUI
 {
-    public partial class LoginForm : MetroForm
+    public partial class GameForm : MetroForm
     {
         private Connection connection;
 
@@ -19,7 +19,7 @@ namespace SublimeDiceUI
         private int currentImageCounter = 0;
         Timer time = new Timer();
 
-        public LoginForm(Connection connection)
+        public GameForm(Connection connection)
         {
             InitializeComponent();
             LoadImages();
@@ -27,6 +27,19 @@ namespace SublimeDiceUI
             time.Interval = 16; // 17
             time.Tick += time_Tick;
             this.connection = connection;
+
+            this.labelStatus.Text = $"You are logged in as: {connection.LoggedInUser.Username}.";
+            // Determine whether to show logout button or logout notice depending on user's auth type
+            if (connection.LoggedInUser.AuthenticationMethod.Item1 == AuthenticationType.Password)
+            {
+                buttonLogout.Visible = false;
+                labelLogoutNotice.Visible = true;
+            }
+            else
+            {
+                buttonLogout.Visible = true;
+                labelLogoutNotice.Visible = false;
+            }
         }
 
         private void LoginForm_FormClosing(object sender, System.Windows.Forms.FormClosingEventArgs e)
@@ -53,65 +66,41 @@ namespace SublimeDiceUI
             }
         }
 
-        private void textBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                buttonLogin_Click(this, EventArgs.Empty);
-            }
-        }
-
         private void LockFormControls(bool locked)
         {
             pictureBoxProgress.Visible = locked;
-            buttonLogin.Enabled = !locked;
-            buttonRegister.Enabled = !locked;
             if (locked)
                 time.Start();
             else
                 time.Stop();
         }
 
-        private async void buttonLogin_Click(object sender, EventArgs e)
+        private async void buttonLogout_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(textBoxUsername.Text))
+            User user = connection.LoggedInUser;
+            Tuple<AuthenticationType, string> authMethod = user.AuthenticationMethod;
+
+            // Shouldn't have access to this button if user logged in with a password.
+            if (authMethod.Item1 == AuthenticationType.Password)
             {
-                MessageBox.Show("Please enter a username.", "Invalid username", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 return;
             }
-
-            if (string.IsNullOrEmpty(textBoxPassword.Text))
-            {
-                MessageBox.Show("Please enter a password.", "Invalid password", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-                return;
-            }
-
-            LockFormControls(true);
-            pictureBoxProgress.Visible = true;
 
             string response = "";
 
-            // TODO: Potentially include this in the Login method
-            response = await connection.Login(textBoxUsername.Text, AuthenticationType.Password, textBoxPassword.Text, checkBoxRetain.Checked);
-            pictureBoxProgress.Visible = false;
-            LockFormControls(false);
+            response = await connection.Logout(connection.LoggedInUser.Username, authMethod.Item2);
+
             ResponseStatus responseStatus = ServerResponseHandler.DisplayMessageBox(response);
 
+            /*
             if (responseStatus == ResponseStatus.OK)
             {
-                // Close the form
-                this.Close();
+                // Okay!
             }
-        }
-
-        private void buttonRegister_Click(object sender, EventArgs e)
-        {
-            RegisterForm registerForm = new RegisterForm(connection);
-            registerForm.ShowDialog();
-            if (registerForm.SuccessfullyRegistered)
-            {
-                this.Close();
-            }
+            */
+            
+            // Close the form regardless of response
+            this.Close();
         }
     }
 }

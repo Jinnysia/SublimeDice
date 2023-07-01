@@ -90,7 +90,7 @@ namespace SublimeDiceUI
                     }
                 }
 
-                // TODO: RUN GAME FORM
+                Application.Run(new GameForm(connection));
             }
 
             // TODO: CLEAN UP / SAVE FILES
