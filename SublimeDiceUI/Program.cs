@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace SublimeDiceUI
 {
@@ -77,14 +76,13 @@ namespace SublimeDiceUI
 
             if (connection.IsLoggedIn)
             {
-<<<<<<< Updated upstream
                 // Get client seed
                 if (saveData.ClientSeedFileExists())
                 {
-                    string clientSeed = saveData.GetClientSeed(connection.LoggedInUser);
+                    string clientSeed = saveData.GetClientSeedFromFile(connection.LoggedInUser.Username);
                     if (string.IsNullOrWhiteSpace(clientSeed))
                     {
-                        saveData.UpdateClientSeed(saveData.GenerateNewClientSeed(connection.LoggedInUser));
+                        saveData.UpdateClientSeedToFile(saveData.GenerateNewClientSeed(connection.LoggedInUser.Username));
                     }
                     else
                     {
@@ -93,9 +91,6 @@ namespace SublimeDiceUI
                 }
 
                 Application.Run(new GameForm(connection));
-=======
-                // TODO: RUN GAME FORM
->>>>>>> Stashed changes
             }
 
             // TODO: CLEAN UP / SAVE FILES
