@@ -49,7 +49,8 @@ namespace SublimeDiceUI
                     string username = saveData.GetUsernameFromSessionToken(sessionToken);
                     if (!string.IsNullOrWhiteSpace(username))
                     {
-                        string response = await connection.Login(username, AuthenticationType.SessionToken, sessionToken, true);
+                        Tuple<string, int> responseTuple = await connection.Login(username, AuthenticationType.SessionToken, sessionToken, true);
+                        string response = responseTuple.Item1;
                         ResponseStatus responseStatus = ServerResponseHandler.DisplayMessageBox(response);
                         if (responseStatus == ResponseStatus.OK)
                         {

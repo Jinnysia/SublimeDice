@@ -63,6 +63,36 @@ namespace SublimeDiceUI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Faucet_35x_Click {
+            get {
+                object obj = ResourceManager.GetObject("Faucet_35x_Click", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Faucet_35x_Hover {
+            get {
+                object obj = ResourceManager.GetObject("Faucet_35x_Hover", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Faucet_35x_Normal {
+            get {
+                object obj = ResourceManager.GetObject("Faucet_35x_Normal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap frame_1 {
             get {
                 object obj = ResourceManager.GetObject("frame_1", resourceCulture);

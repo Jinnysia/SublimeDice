@@ -40,6 +40,11 @@ namespace SublimeDiceUI
             AuthenticationMethod = new Tuple<AuthenticationType, string>(authType, authString);
         }
 
+        public void UpdateBalance(ulong newBalance)
+        {
+            this.Balance = newBalance;
+        }
+
         public static bool IsValidUsernameForRegistration(string username)
         {
             if (username.Length < UsernameLengthMin || username.Length > UsernameLengthMax)

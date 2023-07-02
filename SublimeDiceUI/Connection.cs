@@ -23,12 +23,15 @@ namespace SublimeDiceUI
 
         public bool IsLoggedIn { get; private set; }
 
+        public DateTime CachedFaucetWaitTimer { get; private set; }
+
         private string _connectionDomain;
         private bool _isSecure;
 
         private const string URL_Login = "login.php";
         private const string URL_Register = "register.php";
         private const string URL_Logout = "logout.php";
+        private const string URL_Faucet = "faucet.php";
 
         public Connection(SaveData savedData)
         {
@@ -134,12 +137,14 @@ namespace SublimeDiceUI
             SavedData.UpdateClientSeedToFile(newClientSeed);
         }
 
-        public async Task<string> Login(string username, AuthenticationType authType, string authString, bool retain)
+        public async Task<Tuple<string, int>> Login(string username, AuthenticationType authType, string authString, bool retain)
         {
             if (IsLoggedIn)
             {
                 throw new InvalidOperationException("Cannot login if the user is already logged in.");
             }
+
+            int faucetWait = 0;
 
             Dictionary<string, string> body = new Dictionary<string, string>();
             body.Add("username", username);
@@ -189,12 +194,27 @@ namespace SublimeDiceUI
                         SavedData.UpdateSessionToken();
                     }
 
+                    JsonElement secondsRemaining;
+                    if (data.TryGetProperty("faucet_timer", out secondsRemaining))
+                    {
+                        int.TryParse(secondsRemaining.ToString(), out faucetWait);
+                    }
+
                     IsLoggedIn = true;
                     LoggedInUser = user;
                 }
             }
 
-            return response;
+            if (faucetWait == 0)
+            {
+                CachedFaucetWaitTimer = DateTime.Now.AddSeconds(-1);
+            }
+            else
+            {
+                // Determine correct time from current time
+                CachedFaucetWaitTimer = DateTime.Now.AddSeconds(faucetWait).AddSeconds(1);
+            }
+            return new Tuple<string, int>(response, faucetWait);
         }
 
         public async Task<string> Register(string username, string password, bool retain)
@@ -251,6 +271,50 @@ namespace SublimeDiceUI
             }
 
             return response;
+        }
+
+        public async Task<Tuple<string, int>> FaucetRequest(string username, AuthenticationType authType, string authString)
+        {
+            if (!IsLoggedIn)
+            {
+                throw new InvalidOperationException("Cannot acquire faucet if the user is not logged in.");
+            }
+
+            int faucetWait = 0;
+
+            Dictionary<string, string> body = new Dictionary<string, string>();
+            body.Add("username", username);
+            if (authType == AuthenticationType.Password)
+            {
+                body.Add("password", authString);
+            }
+            else
+            {
+                body.Add("session_token", authString);
+            }
+
+            string response = await SendPOSTRequest(URL_Faucet, body);
+            // Parse additional data
+            using (JsonDocument doc = JsonDocument.Parse(response))
+            {
+                JsonElement root = doc.RootElement;
+
+                // First check status and see if it's OK
+                if (root.GetProperty("status").ToString() == "OK")
+                {
+                    // Get seconds remaining
+                    JsonElement secondsRemaining = root.GetProperty("seconds_remaining");
+                    int.TryParse(secondsRemaining.ToString(), out faucetWait);
+
+                    JsonElement data = root.GetProperty("data");
+                    ulong balance = ulong.Parse(data.GetProperty("sd_balance").ToString());
+
+                    // Update balance
+                    LoggedInUser.UpdateBalance(balance);
+                }
+            }
+
+            return new Tuple<string, int>(response, faucetWait);
         }
 
         public async Task<string> Logout(string username, string sessionToken)

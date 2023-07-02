@@ -92,7 +92,9 @@ namespace SublimeDiceUI
             string response = "";
 
             // TODO: Potentially include this in the Login method
-            response = await connection.Login(textBoxUsername.Text, AuthenticationType.Password, textBoxPassword.Text, checkBoxRetain.Checked);
+            Tuple<string, int> responseTuple = await connection.Login(textBoxUsername.Text, AuthenticationType.Password, textBoxPassword.Text, checkBoxRetain.Checked);
+            response = responseTuple.Item1;
+
             pictureBoxProgress.Visible = false;
             LockFormControls(false);
             ResponseStatus responseStatus = ServerResponseHandler.DisplayMessageBox(response);
