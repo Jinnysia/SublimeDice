@@ -39,6 +39,7 @@
             this.buttonUnselect = new MetroFramework.Controls.MetroButton();
             this.toolTipMain = new System.Windows.Forms.ToolTip(this.components);
             this.labelFaucetWaitTimer = new MetroFramework.Controls.MetroLabel();
+            this.linkLabelVerify = new MetroFramework.Controls.MetroLink();
             ((System.ComponentModel.ISupportInitialize)(this.metroStyleManager1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxProgress)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxFaucet)).BeginInit();
@@ -123,11 +124,23 @@
             this.labelFaucetWaitTimer.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.labelFaucetWaitTimer.Visible = false;
             // 
+            // linkLabelVerify
+            // 
+            this.linkLabelVerify.AutoSize = true;
+            this.linkLabelVerify.Location = new System.Drawing.Point(89, 335);
+            this.linkLabelVerify.Name = "linkLabelVerify";
+            this.linkLabelVerify.Size = new System.Drawing.Size(99, 23);
+            this.linkLabelVerify.TabIndex = 8;
+            this.linkLabelVerify.Text = "Fairness / Verify";
+            this.linkLabelVerify.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.linkLabelVerify.UseSelectable = true;
+            // 
             // GameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(480, 365);
+            this.Controls.Add(this.linkLabelVerify);
             this.Controls.Add(this.labelFaucetWaitTimer);
             this.Controls.Add(this.buttonUnselect);
             this.Controls.Add(this.pictureBoxFaucet);
@@ -162,5 +175,6 @@
         private MetroFramework.Controls.MetroButton buttonUnselect;
         private System.Windows.Forms.ToolTip toolTipMain;
         private MetroFramework.Controls.MetroLabel labelFaucetWaitTimer;
+        private MetroFramework.Controls.MetroLink linkLabelVerify;
     }
 }
