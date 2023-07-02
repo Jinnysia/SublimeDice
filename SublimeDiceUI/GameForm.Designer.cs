@@ -35,6 +35,7 @@
             this.labelStatus = new MetroFramework.Controls.MetroLabel();
             this.buttonLogout = new MetroFramework.Controls.MetroButton();
             this.labelLogoutNotice = new MetroFramework.Controls.MetroLabel();
+            this.labelBalance = new MetroFramework.Controls.MetroLabel();
             ((System.ComponentModel.ISupportInitialize)(this.metroStyleManager1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxProgress)).BeginInit();
             this.SuspendLayout();
@@ -86,11 +87,23 @@
             this.labelLogoutNotice.Text = "You will be logged out upon exiting.";
             this.labelLogoutNotice.Theme = MetroFramework.MetroThemeStyle.Dark;
             // 
+            // labelBalance
+            // 
+            this.labelBalance.FontSize = MetroFramework.MetroLabelSize.Tall;
+            this.labelBalance.Location = new System.Drawing.Point(263, 286);
+            this.labelBalance.Name = "labelBalance";
+            this.labelBalance.Size = new System.Drawing.Size(207, 25);
+            this.labelBalance.TabIndex = 4;
+            this.labelBalance.Text = "¢0";
+            this.labelBalance.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.labelBalance.Theme = MetroFramework.MetroThemeStyle.Dark;
+            // 
             // GameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(480, 365);
+            this.Controls.Add(this.labelBalance);
             this.Controls.Add(this.labelLogoutNotice);
             this.Controls.Add(this.buttonLogout);
             this.Controls.Add(this.labelStatus);
@@ -117,5 +130,6 @@
         private MetroFramework.Controls.MetroLabel labelStatus;
         private MetroFramework.Controls.MetroButton buttonLogout;
         private MetroFramework.Controls.MetroLabel labelLogoutNotice;
+        private MetroFramework.Controls.MetroLabel labelBalance;
     }
 }

@@ -29,6 +29,7 @@ namespace SublimeDiceUI
             this.connection = connection;
 
             this.labelStatus.Text = $"You are logged in as: {connection.LoggedInUser.Username}.";
+            this.labelBalance.Text = "¢" + connection.LoggedInUser.Balance;
             // Determine whether to show logout button or logout notice depending on user's auth type
             if (connection.LoggedInUser.AuthenticationMethod.Item1 == AuthenticationType.Password)
             {
