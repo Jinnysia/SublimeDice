@@ -40,9 +40,20 @@
             this.toolTipMain = new System.Windows.Forms.ToolTip(this.components);
             this.labelFaucetWaitTimer = new MetroFramework.Controls.MetroLabel();
             this.linkLabelVerify = new MetroFramework.Controls.MetroLink();
+            this.trackBarNumber = new MetroFramework.Controls.MetroTrackBar();
+            this.textBoxRollBoundary = new MetroFramework.Controls.MetroTextBox();
+            this.pictureBoxToggleBoundary = new System.Windows.Forms.PictureBox();
+            this.textBoxRollMultiplier = new MetroFramework.Controls.MetroTextBox();
+            this.labelRollMultiplierSymbol = new MetroFramework.Controls.MetroLabel();
+            this.textBoxRollWinChance = new MetroFramework.Controls.MetroTextBox();
+            this.labelRollWinChancePercentage = new MetroFramework.Controls.MetroLabel();
+            this.labelRollBoundary = new MetroFramework.Controls.MetroLabel();
+            this.labelMultiplier = new MetroFramework.Controls.MetroLabel();
+            this.labelWinChance = new MetroFramework.Controls.MetroLabel();
             ((System.ComponentModel.ISupportInitialize)(this.metroStyleManager1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxProgress)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxFaucet)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxToggleBoundary)).BeginInit();
             this.SuspendLayout();
             // 
             // metroStyleManager1
@@ -135,11 +146,197 @@
             this.linkLabelVerify.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.linkLabelVerify.UseSelectable = true;
             // 
+            // trackBarNumber
+            // 
+            this.trackBarNumber.BackColor = System.Drawing.Color.Transparent;
+            this.trackBarNumber.Location = new System.Drawing.Point(23, 63);
+            this.trackBarNumber.Maximum = 9800;
+            this.trackBarNumber.Minimum = 200;
+            this.trackBarNumber.Name = "trackBarNumber";
+            this.trackBarNumber.Size = new System.Drawing.Size(434, 23);
+            this.trackBarNumber.TabIndex = 9;
+            this.trackBarNumber.Text = "Number";
+            this.trackBarNumber.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.trackBarNumber.Value = 4950;
+            this.trackBarNumber.ValueChanged += ChangeRollParameterControlDisplay;
+            // 
+            // textBoxRollBoundary
+            // 
+            // 
+            // 
+            // 
+            this.textBoxRollBoundary.CustomButton.Image = null;
+            this.textBoxRollBoundary.CustomButton.Location = new System.Drawing.Point(94, 1);
+            this.textBoxRollBoundary.CustomButton.Name = "";
+            this.textBoxRollBoundary.CustomButton.Size = new System.Drawing.Size(21, 21);
+            this.textBoxRollBoundary.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.textBoxRollBoundary.CustomButton.TabIndex = 1;
+            this.textBoxRollBoundary.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.textBoxRollBoundary.CustomButton.UseSelectable = true;
+            this.textBoxRollBoundary.CustomButton.Visible = false;
+            this.textBoxRollBoundary.Lines = new string[] {
+        "49.50"};
+            this.textBoxRollBoundary.Location = new System.Drawing.Point(23, 111);
+            this.textBoxRollBoundary.MaxLength = 32767;
+            this.textBoxRollBoundary.Name = "textBoxRollBoundary";
+            this.textBoxRollBoundary.PasswordChar = '\0';
+            this.textBoxRollBoundary.ReadOnly = true;
+            this.textBoxRollBoundary.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.textBoxRollBoundary.SelectedText = "";
+            this.textBoxRollBoundary.SelectionLength = 0;
+            this.textBoxRollBoundary.SelectionStart = 0;
+            this.textBoxRollBoundary.ShortcutsEnabled = true;
+            this.textBoxRollBoundary.Size = new System.Drawing.Size(116, 23);
+            this.textBoxRollBoundary.TabIndex = 10;
+            this.textBoxRollBoundary.Text = "49.50";
+            this.textBoxRollBoundary.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBoxRollBoundary.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.textBoxRollBoundary.UseSelectable = true;
+            this.textBoxRollBoundary.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.textBoxRollBoundary.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            // 
+            // pictureBoxToggleBoundary
+            // 
+            this.pictureBoxToggleBoundary.Location = new System.Drawing.Point(145, 111);
+            this.pictureBoxToggleBoundary.Name = "pictureBoxToggleBoundary";
+            this.pictureBoxToggleBoundary.Size = new System.Drawing.Size(23, 23);
+            this.pictureBoxToggleBoundary.TabIndex = 11;
+            this.pictureBoxToggleBoundary.TabStop = false;
+            this.pictureBoxToggleBoundary.Click += new System.EventHandler(this.pictureBoxToggleBoundary_Click);
+            // 
+            // textBoxRollMultiplier
+            // 
+            // 
+            // 
+            // 
+            this.textBoxRollMultiplier.CustomButton.Image = null;
+            this.textBoxRollMultiplier.CustomButton.Location = new System.Drawing.Point(94, 1);
+            this.textBoxRollMultiplier.CustomButton.Name = "";
+            this.textBoxRollMultiplier.CustomButton.Size = new System.Drawing.Size(21, 21);
+            this.textBoxRollMultiplier.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.textBoxRollMultiplier.CustomButton.TabIndex = 1;
+            this.textBoxRollMultiplier.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.textBoxRollMultiplier.CustomButton.UseSelectable = true;
+            this.textBoxRollMultiplier.CustomButton.Visible = false;
+            this.textBoxRollMultiplier.Lines = new string[] {
+        "2.0000"};
+            this.textBoxRollMultiplier.Location = new System.Drawing.Point(174, 111);
+            this.textBoxRollMultiplier.MaxLength = 32767;
+            this.textBoxRollMultiplier.Name = "textBoxRollMultiplier";
+            this.textBoxRollMultiplier.PasswordChar = '\0';
+            this.textBoxRollMultiplier.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.textBoxRollMultiplier.SelectedText = "";
+            this.textBoxRollMultiplier.SelectionLength = 0;
+            this.textBoxRollMultiplier.SelectionStart = 0;
+            this.textBoxRollMultiplier.ShortcutsEnabled = true;
+            this.textBoxRollMultiplier.Size = new System.Drawing.Size(116, 23);
+            this.textBoxRollMultiplier.TabIndex = 12;
+            this.textBoxRollMultiplier.Text = "2.0000";
+            this.textBoxRollMultiplier.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBoxRollMultiplier.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.textBoxRollMultiplier.UseSelectable = true;
+            this.textBoxRollMultiplier.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.textBoxRollMultiplier.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            // 
+            // labelRollMultiplierSymbol
+            // 
+            this.labelRollMultiplierSymbol.AutoSize = true;
+            this.labelRollMultiplierSymbol.Location = new System.Drawing.Point(291, 113);
+            this.labelRollMultiplierSymbol.Name = "labelRollMultiplierSymbol";
+            this.labelRollMultiplierSymbol.Size = new System.Drawing.Size(15, 19);
+            this.labelRollMultiplierSymbol.TabIndex = 13;
+            this.labelRollMultiplierSymbol.Text = "x";
+            this.labelRollMultiplierSymbol.Theme = MetroFramework.MetroThemeStyle.Dark;
+            // 
+            // textBoxRollWinChance
+            // 
+            // 
+            // 
+            // 
+            this.textBoxRollWinChance.CustomButton.Image = null;
+            this.textBoxRollWinChance.CustomButton.Location = new System.Drawing.Point(94, 1);
+            this.textBoxRollWinChance.CustomButton.Name = "";
+            this.textBoxRollWinChance.CustomButton.Size = new System.Drawing.Size(21, 21);
+            this.textBoxRollWinChance.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.textBoxRollWinChance.CustomButton.TabIndex = 1;
+            this.textBoxRollWinChance.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.textBoxRollWinChance.CustomButton.UseSelectable = true;
+            this.textBoxRollWinChance.CustomButton.Visible = false;
+            this.textBoxRollWinChance.Lines = new string[] {
+        "49.5000"};
+            this.textBoxRollWinChance.Location = new System.Drawing.Point(315, 111);
+            this.textBoxRollWinChance.MaxLength = 32767;
+            this.textBoxRollWinChance.Name = "textBoxRollWinChance";
+            this.textBoxRollWinChance.PasswordChar = '\0';
+            this.textBoxRollWinChance.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.textBoxRollWinChance.SelectedText = "";
+            this.textBoxRollWinChance.SelectionLength = 0;
+            this.textBoxRollWinChance.SelectionStart = 0;
+            this.textBoxRollWinChance.ShortcutsEnabled = true;
+            this.textBoxRollWinChance.Size = new System.Drawing.Size(116, 23);
+            this.textBoxRollWinChance.TabIndex = 14;
+            this.textBoxRollWinChance.Text = "49.5000";
+            this.textBoxRollWinChance.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBoxRollWinChance.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.textBoxRollWinChance.UseSelectable = true;
+            this.textBoxRollWinChance.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.textBoxRollWinChance.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            // 
+            // labelRollWinChancePercentage
+            // 
+            this.labelRollWinChancePercentage.AutoSize = true;
+            this.labelRollWinChancePercentage.Location = new System.Drawing.Point(432, 113);
+            this.labelRollWinChancePercentage.Name = "labelRollWinChancePercentage";
+            this.labelRollWinChancePercentage.Size = new System.Drawing.Size(20, 19);
+            this.labelRollWinChancePercentage.TabIndex = 15;
+            this.labelRollWinChancePercentage.Text = "%";
+            this.labelRollWinChancePercentage.Theme = MetroFramework.MetroThemeStyle.Dark;
+            // 
+            // labelRollBoundary
+            // 
+            this.labelRollBoundary.AutoSize = true;
+            this.labelRollBoundary.Location = new System.Drawing.Point(23, 89);
+            this.labelRollBoundary.Name = "labelRollBoundary";
+            this.labelRollBoundary.Size = new System.Drawing.Size(71, 19);
+            this.labelRollBoundary.TabIndex = 16;
+            this.labelRollBoundary.Text = "Roll Under";
+            this.labelRollBoundary.Theme = MetroFramework.MetroThemeStyle.Dark;
+            // 
+            // labelMultiplier
+            // 
+            this.labelMultiplier.AutoSize = true;
+            this.labelMultiplier.Location = new System.Drawing.Point(174, 89);
+            this.labelMultiplier.Name = "labelMultiplier";
+            this.labelMultiplier.Size = new System.Drawing.Size(64, 19);
+            this.labelMultiplier.TabIndex = 17;
+            this.labelMultiplier.Text = "Multiplier";
+            this.labelMultiplier.Theme = MetroFramework.MetroThemeStyle.Dark;
+            // 
+            // labelWinChance
+            // 
+            this.labelWinChance.AutoSize = true;
+            this.labelWinChance.Location = new System.Drawing.Point(315, 89);
+            this.labelWinChance.Name = "labelWinChance";
+            this.labelWinChance.Size = new System.Drawing.Size(79, 19);
+            this.labelWinChance.TabIndex = 18;
+            this.labelWinChance.Text = "Win Chance";
+            this.labelWinChance.Theme = MetroFramework.MetroThemeStyle.Dark;
+            // 
             // GameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(480, 365);
+            this.Controls.Add(this.labelWinChance);
+            this.Controls.Add(this.labelMultiplier);
+            this.Controls.Add(this.labelRollBoundary);
+            this.Controls.Add(this.labelRollWinChancePercentage);
+            this.Controls.Add(this.textBoxRollWinChance);
+            this.Controls.Add(this.labelRollMultiplierSymbol);
+            this.Controls.Add(this.textBoxRollMultiplier);
+            this.Controls.Add(this.pictureBoxToggleBoundary);
+            this.Controls.Add(this.textBoxRollBoundary);
+            this.Controls.Add(this.trackBarNumber);
             this.Controls.Add(this.linkLabelVerify);
             this.Controls.Add(this.labelFaucetWaitTimer);
             this.Controls.Add(this.buttonUnselect);
@@ -159,6 +356,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.metroStyleManager1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxProgress)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxFaucet)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxToggleBoundary)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -176,5 +374,15 @@
         private System.Windows.Forms.ToolTip toolTipMain;
         private MetroFramework.Controls.MetroLabel labelFaucetWaitTimer;
         private MetroFramework.Controls.MetroLink linkLabelVerify;
+        private MetroFramework.Controls.MetroTrackBar trackBarNumber;
+        private MetroFramework.Controls.MetroTextBox textBoxRollBoundary;
+        private System.Windows.Forms.PictureBox pictureBoxToggleBoundary;
+        private MetroFramework.Controls.MetroTextBox textBoxRollMultiplier;
+        private MetroFramework.Controls.MetroLabel labelRollMultiplierSymbol;
+        private MetroFramework.Controls.MetroTextBox textBoxRollWinChance;
+        private MetroFramework.Controls.MetroLabel labelRollWinChancePercentage;
+        private MetroFramework.Controls.MetroLabel labelRollBoundary;
+        private MetroFramework.Controls.MetroLabel labelMultiplier;
+        private MetroFramework.Controls.MetroLabel labelWinChance;
     }
 }

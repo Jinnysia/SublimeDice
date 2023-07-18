@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MetroFramework.Controls;
 using MetroFramework.Forms;
 
 namespace SublimeDiceUI
@@ -22,6 +23,8 @@ namespace SublimeDiceUI
         private int faucetWaitSeconds = 0;
 
         private bool isMouseOverFaucet = false;
+
+        private bool isRollOver = false;
 
         public GameForm(Connection connection)
         {
@@ -225,6 +228,108 @@ namespace SublimeDiceUI
             
             // Close the form regardless of response
             this.Close();
+        }
+
+        /* Multiplier calculation
+           1% House Edge
+           
+           UPDATED:
+           Rolling a num from [0-9999]:
+           y = 9900x^{-1}
+           
+           y=99x^{-1}
+           y = Multiplier of Payout
+           x = Roll Under / Win Chance
+           
+           
+           y=(100-a)x^{-1}
+           y = Multiplier of Payout
+           x = Roll Under / Win Chance
+           a = House Edge % * 100 (1% = 1)
+           
+           Win Chance: 4 decimal places
+           Multiplier: 4 decimal places
+           
+           Roll Under 98.00 | Multiplier: 1.0102 | Win Chance: 98.00%
+           Roll Over 1.99   | Multiplier: 1.0102 | Win Chance: 98.00%
+           
+           // Max   - Under = Over
+           // 99.99 - 98.00 = 1.99
+           
+           Roll Under 2.00 | Multiplier: 49.5x | Win Chance: 2.00%
+           Roll Under 5.00 | Multiplier: 19.8x | Win Chance: 5.00%
+         */
+
+        private void ChangeRollParameterControlDisplay(object sender, EventArgs e)
+        {
+            if (sender.GetType() == typeof(MetroTrackBar))
+            {
+                int value = trackBarNumber.Value;
+
+                textBoxRollBoundary.Text = value.ToString().Insert(value.ToString().Length - 2, ".");
+
+                int adjustedValue = value;
+                if (isRollOver)
+                {
+                    adjustedValue = 9999 - value;
+                }
+
+                string winChance = adjustedValue.ToString();
+                textBoxRollWinChance.Text = winChance.Insert(winChance.Length - 2, ".") + "00";
+
+                double multiplier = GetMultiplier(adjustedValue);
+                textBoxRollMultiplier.Text = multiplier.ToString("#.0000");
+            }
+
+            // TODO: Add functionality for modification of Multiplier / Win Chance text box
+            // TODO: Remember previous values and default to them in case of invalid input
+        }
+
+        private double GetMultiplier(int rawBoundary)
+        {
+            return (100 - 1) * Math.Pow(rawBoundary * 1.0 / 100, -1);
+        }
+
+        private void pictureBoxToggleBoundary_Click(object sender, EventArgs e)
+        {
+            isRollOver = !isRollOver;
+            int val = trackBarNumber.Value;
+
+            if (isRollOver)
+            {
+                labelRollBoundary.Text = "Roll Over";
+                // First reset boundaries
+                trackBarNumber.Maximum = 10000;
+                trackBarNumber.Minimum = 0;
+
+                // Change value to Over
+                int newVal = 9999 - val;
+                trackBarNumber.Value = newVal;
+                trackBarNumber.Maximum = 9799;
+                trackBarNumber.Minimum = 199;
+
+                string newValStr = newVal.ToString();
+                textBoxRollBoundary.Text = newValStr.Insert(newValStr.Length - 2, ".");
+            }
+            else
+            {
+                labelRollBoundary.Text = "Roll Under";
+
+                // First reset boundaries
+                trackBarNumber.Maximum = 10000;
+                trackBarNumber.Minimum = 0;
+
+                // Change value to Over
+                int newVal = 9999 - val;
+                trackBarNumber.Value = newVal;
+                trackBarNumber.Maximum = 9800;
+                trackBarNumber.Minimum = 200;
+
+                string newValStr = newVal.ToString();
+                textBoxRollBoundary.Text = newValStr.Insert(newValStr.Length - 2, ".");
+            }
+
+            buttonUnselect.Focus();
         }
     }
 }
