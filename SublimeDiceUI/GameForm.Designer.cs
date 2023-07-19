@@ -63,6 +63,7 @@
             this.buttonWagerDouble = new MetroFramework.Controls.MetroButton();
             this.buttonRoll = new MetroFramework.Controls.MetroButton();
             this.labelRollResult = new System.Windows.Forms.Label();
+            this.buttonWagerMax = new MetroFramework.Controls.MetroButton();
             ((System.ComponentModel.ISupportInitialize)(this.metroStyleManager1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxProgress)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxFaucet)).BeginInit();
@@ -158,6 +159,7 @@
             this.linkLabelVerify.Text = "Fairness / Verify";
             this.linkLabelVerify.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.linkLabelVerify.UseSelectable = true;
+            this.linkLabelVerify.Click += new System.EventHandler(this.linkLabelVerify_Click);
             // 
             // trackBarNumber
             // 
@@ -496,9 +498,9 @@
             // 
             this.buttonWagerHalve.FontSize = MetroFramework.MetroButtonSize.Medium;
             this.buttonWagerHalve.FontWeight = MetroFramework.MetroButtonWeight.Regular;
-            this.buttonWagerHalve.Location = new System.Drawing.Point(120, 176);
+            this.buttonWagerHalve.Location = new System.Drawing.Point(101, 176);
             this.buttonWagerHalve.Name = "buttonWagerHalve";
-            this.buttonWagerHalve.Size = new System.Drawing.Size(31, 23);
+            this.buttonWagerHalve.Size = new System.Drawing.Size(25, 23);
             this.buttonWagerHalve.TabIndex = 28;
             this.buttonWagerHalve.Text = "½";
             this.buttonWagerHalve.Theme = MetroFramework.MetroThemeStyle.Dark;
@@ -509,9 +511,9 @@
             // 
             this.buttonWagerDouble.FontSize = MetroFramework.MetroButtonSize.Medium;
             this.buttonWagerDouble.FontWeight = MetroFramework.MetroButtonWeight.Regular;
-            this.buttonWagerDouble.Location = new System.Drawing.Point(157, 176);
+            this.buttonWagerDouble.Location = new System.Drawing.Point(132, 176);
             this.buttonWagerDouble.Name = "buttonWagerDouble";
-            this.buttonWagerDouble.Size = new System.Drawing.Size(31, 23);
+            this.buttonWagerDouble.Size = new System.Drawing.Size(25, 23);
             this.buttonWagerDouble.TabIndex = 29;
             this.buttonWagerDouble.Text = "2x";
             this.buttonWagerDouble.Theme = MetroFramework.MetroThemeStyle.Dark;
@@ -524,7 +526,7 @@
             this.buttonRoll.Location = new System.Drawing.Point(232, 197);
             this.buttonRoll.Name = "buttonRoll";
             this.buttonRoll.Size = new System.Drawing.Size(220, 50);
-            this.buttonRoll.TabIndex = 30;
+            this.buttonRoll.TabIndex = 32;
             this.buttonRoll.Text = "Roll Dice";
             this.buttonRoll.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.buttonRoll.UseSelectable = true;
@@ -542,11 +544,25 @@
             this.labelRollResult.TabIndex = 31;
             this.labelRollResult.Text = "00.00";
             // 
+            // buttonWagerMax
+            // 
+            this.buttonWagerMax.FontSize = MetroFramework.MetroButtonSize.Medium;
+            this.buttonWagerMax.FontWeight = MetroFramework.MetroButtonWeight.Regular;
+            this.buttonWagerMax.Location = new System.Drawing.Point(163, 176);
+            this.buttonWagerMax.Name = "buttonWagerMax";
+            this.buttonWagerMax.Size = new System.Drawing.Size(25, 23);
+            this.buttonWagerMax.TabIndex = 30;
+            this.buttonWagerMax.Text = "!!!";
+            this.buttonWagerMax.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.buttonWagerMax.UseSelectable = true;
+            this.buttonWagerMax.Click += new System.EventHandler(this.buttonWagerMax_Click);
+            // 
             // GameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(480, 365);
+            this.Controls.Add(this.buttonWagerMax);
             this.Controls.Add(this.labelRollResult);
             this.Controls.Add(this.buttonRoll);
             this.Controls.Add(this.buttonWagerDouble);
@@ -630,5 +646,6 @@
         private MetroFramework.Controls.MetroButton buttonWagerDouble;
         private MetroFramework.Controls.MetroButton buttonRoll;
         private System.Windows.Forms.Label labelRollResult;
+        private MetroFramework.Controls.MetroButton buttonWagerMax;
     }
 }

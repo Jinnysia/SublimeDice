@@ -627,6 +627,12 @@ namespace SublimeDiceUI
             buttonUnselect.Focus();
         }
 
+        private void buttonWagerMax_Click(object sender, EventArgs e)
+        {
+            textBoxWagerAmount.Text = connection.LoggedInUser.Balance.ToString();
+            UpdateProfitOnWin();
+        }
+
         private void buttonRoll_Click(object sender, EventArgs e)
         {
             SendRoll();
@@ -649,23 +655,33 @@ namespace SublimeDiceUI
 
             // Stop animation
 
-            Roll rollResult = responseTuple.Item2;
-
-            // Update roll result label
-            labelRollResult.Text = rollResult.RolledNumberString;
-
             // Update balance label
             this.labelStatus.Text = $"¢{connection.LoggedInUser.Balance} / {connection.LoggedInUser.Username}";
 
             // Unlock controls
             LockFormControls(false);
 
+            // Check if error happened
             // Display error if it exists
             ResponseStatus responseStatus = ServerResponseHandler.GetResponseStatus(response);
             if (responseStatus != ResponseStatus.OK)
             {
+                labelRollResult.Text = "xx.xx";
+                // Display error
                 ServerResponseHandler.DisplayMessageBox(response);
             }
+            else
+            {
+                Roll rollResult = responseTuple.Item2;
+
+                // Update roll result label
+                labelRollResult.Text = rollResult.RolledNumberString;
+            }
+        }
+
+        private void linkLabelVerify_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("The Fairness and Verify menu is in development.", "Coming soon!", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }
