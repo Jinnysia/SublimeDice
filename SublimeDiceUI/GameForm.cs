@@ -258,6 +258,7 @@ namespace SublimeDiceUI
             // Lock main controls
             textBoxRollMultiplier.Enabled = !locked;
             textBoxRollWinChance.Enabled = !locked;
+            trackBarNumber.Enabled = !locked;
             buttonRoll.Enabled = !locked;
             buttonLogout.Enabled = !locked;
             buttonWagerDouble.Enabled = !locked;
