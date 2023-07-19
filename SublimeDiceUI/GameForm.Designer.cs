@@ -50,6 +50,8 @@
             this.labelRollBoundary = new MetroFramework.Controls.MetroLabel();
             this.labelMultiplier = new MetroFramework.Controls.MetroLabel();
             this.labelWinChance = new MetroFramework.Controls.MetroLabel();
+            this.labelAxisMin = new MetroFramework.Controls.MetroLabel();
+            this.labelAxisMax = new MetroFramework.Controls.MetroLabel();
             ((System.ComponentModel.ISupportInitialize)(this.metroStyleManager1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxProgress)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxFaucet)).BeginInit();
@@ -149,7 +151,7 @@
             // trackBarNumber
             // 
             this.trackBarNumber.BackColor = System.Drawing.Color.Transparent;
-            this.trackBarNumber.Location = new System.Drawing.Point(23, 63);
+            this.trackBarNumber.Location = new System.Drawing.Point(23, 88);
             this.trackBarNumber.Maximum = 9800;
             this.trackBarNumber.Minimum = 200;
             this.trackBarNumber.Name = "trackBarNumber";
@@ -158,7 +160,7 @@
             this.trackBarNumber.Text = "Number";
             this.trackBarNumber.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.trackBarNumber.Value = 4950;
-            this.trackBarNumber.ValueChanged += ChangeRollParameterControlDisplay;
+            this.trackBarNumber.ValueChanged += new System.EventHandler(this.ChangeRollParameterControlDisplay);
             // 
             // textBoxRollBoundary
             // 
@@ -174,9 +176,10 @@
             this.textBoxRollBoundary.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
             this.textBoxRollBoundary.CustomButton.UseSelectable = true;
             this.textBoxRollBoundary.CustomButton.Visible = false;
+            this.textBoxRollBoundary.Enabled = false;
             this.textBoxRollBoundary.Lines = new string[] {
         "49.50"};
-            this.textBoxRollBoundary.Location = new System.Drawing.Point(23, 111);
+            this.textBoxRollBoundary.Location = new System.Drawing.Point(23, 136);
             this.textBoxRollBoundary.MaxLength = 32767;
             this.textBoxRollBoundary.Name = "textBoxRollBoundary";
             this.textBoxRollBoundary.PasswordChar = '\0';
@@ -197,7 +200,7 @@
             // 
             // pictureBoxToggleBoundary
             // 
-            this.pictureBoxToggleBoundary.Location = new System.Drawing.Point(145, 111);
+            this.pictureBoxToggleBoundary.Location = new System.Drawing.Point(145, 136);
             this.pictureBoxToggleBoundary.Name = "pictureBoxToggleBoundary";
             this.pictureBoxToggleBoundary.Size = new System.Drawing.Size(23, 23);
             this.pictureBoxToggleBoundary.TabIndex = 11;
@@ -220,7 +223,7 @@
             this.textBoxRollMultiplier.CustomButton.Visible = false;
             this.textBoxRollMultiplier.Lines = new string[] {
         "2.0000"};
-            this.textBoxRollMultiplier.Location = new System.Drawing.Point(174, 111);
+            this.textBoxRollMultiplier.Location = new System.Drawing.Point(174, 136);
             this.textBoxRollMultiplier.MaxLength = 32767;
             this.textBoxRollMultiplier.Name = "textBoxRollMultiplier";
             this.textBoxRollMultiplier.PasswordChar = '\0';
@@ -237,11 +240,13 @@
             this.textBoxRollMultiplier.UseSelectable = true;
             this.textBoxRollMultiplier.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.textBoxRollMultiplier.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.textBoxRollMultiplier.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBoxRollMultiplier_KeyDown);
+            this.textBoxRollMultiplier.Leave += new System.EventHandler(this.textBoxRollMultiplier_Leave);
             // 
             // labelRollMultiplierSymbol
             // 
             this.labelRollMultiplierSymbol.AutoSize = true;
-            this.labelRollMultiplierSymbol.Location = new System.Drawing.Point(291, 113);
+            this.labelRollMultiplierSymbol.Location = new System.Drawing.Point(291, 138);
             this.labelRollMultiplierSymbol.Name = "labelRollMultiplierSymbol";
             this.labelRollMultiplierSymbol.Size = new System.Drawing.Size(15, 19);
             this.labelRollMultiplierSymbol.TabIndex = 13;
@@ -264,7 +269,7 @@
             this.textBoxRollWinChance.CustomButton.Visible = false;
             this.textBoxRollWinChance.Lines = new string[] {
         "49.5000"};
-            this.textBoxRollWinChance.Location = new System.Drawing.Point(315, 111);
+            this.textBoxRollWinChance.Location = new System.Drawing.Point(315, 136);
             this.textBoxRollWinChance.MaxLength = 32767;
             this.textBoxRollWinChance.Name = "textBoxRollWinChance";
             this.textBoxRollWinChance.PasswordChar = '\0';
@@ -281,11 +286,13 @@
             this.textBoxRollWinChance.UseSelectable = true;
             this.textBoxRollWinChance.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.textBoxRollWinChance.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.textBoxRollWinChance.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBoxRollWinChance_KeyDown);
+            this.textBoxRollWinChance.Leave += new System.EventHandler(this.textBoxRollWinChance_Leave);
             // 
             // labelRollWinChancePercentage
             // 
             this.labelRollWinChancePercentage.AutoSize = true;
-            this.labelRollWinChancePercentage.Location = new System.Drawing.Point(432, 113);
+            this.labelRollWinChancePercentage.Location = new System.Drawing.Point(432, 138);
             this.labelRollWinChancePercentage.Name = "labelRollWinChancePercentage";
             this.labelRollWinChancePercentage.Size = new System.Drawing.Size(20, 19);
             this.labelRollWinChancePercentage.TabIndex = 15;
@@ -295,7 +302,7 @@
             // labelRollBoundary
             // 
             this.labelRollBoundary.AutoSize = true;
-            this.labelRollBoundary.Location = new System.Drawing.Point(23, 89);
+            this.labelRollBoundary.Location = new System.Drawing.Point(23, 114);
             this.labelRollBoundary.Name = "labelRollBoundary";
             this.labelRollBoundary.Size = new System.Drawing.Size(71, 19);
             this.labelRollBoundary.TabIndex = 16;
@@ -305,7 +312,7 @@
             // labelMultiplier
             // 
             this.labelMultiplier.AutoSize = true;
-            this.labelMultiplier.Location = new System.Drawing.Point(174, 89);
+            this.labelMultiplier.Location = new System.Drawing.Point(174, 114);
             this.labelMultiplier.Name = "labelMultiplier";
             this.labelMultiplier.Size = new System.Drawing.Size(64, 19);
             this.labelMultiplier.TabIndex = 17;
@@ -315,18 +322,40 @@
             // labelWinChance
             // 
             this.labelWinChance.AutoSize = true;
-            this.labelWinChance.Location = new System.Drawing.Point(315, 89);
+            this.labelWinChance.Location = new System.Drawing.Point(315, 114);
             this.labelWinChance.Name = "labelWinChance";
             this.labelWinChance.Size = new System.Drawing.Size(79, 19);
             this.labelWinChance.TabIndex = 18;
             this.labelWinChance.Text = "Win Chance";
             this.labelWinChance.Theme = MetroFramework.MetroThemeStyle.Dark;
             // 
+            // labelAxisMin
+            // 
+            this.labelAxisMin.AutoSize = true;
+            this.labelAxisMin.Location = new System.Drawing.Point(23, 66);
+            this.labelAxisMin.Name = "labelAxisMin";
+            this.labelAxisMin.Size = new System.Drawing.Size(33, 19);
+            this.labelAxisMin.TabIndex = 19;
+            this.labelAxisMin.Text = "2.00";
+            this.labelAxisMin.Theme = MetroFramework.MetroThemeStyle.Dark;
+            // 
+            // labelAxisMax
+            // 
+            this.labelAxisMax.Location = new System.Drawing.Point(404, 66);
+            this.labelAxisMax.Name = "labelAxisMax";
+            this.labelAxisMax.Size = new System.Drawing.Size(53, 19);
+            this.labelAxisMax.TabIndex = 20;
+            this.labelAxisMax.Text = "98.00";
+            this.labelAxisMax.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.labelAxisMax.Theme = MetroFramework.MetroThemeStyle.Dark;
+            // 
             // GameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(480, 365);
+            this.Controls.Add(this.labelAxisMax);
+            this.Controls.Add(this.labelAxisMin);
             this.Controls.Add(this.labelWinChance);
             this.Controls.Add(this.labelMultiplier);
             this.Controls.Add(this.labelRollBoundary);
@@ -384,5 +413,7 @@
         private MetroFramework.Controls.MetroLabel labelRollBoundary;
         private MetroFramework.Controls.MetroLabel labelMultiplier;
         private MetroFramework.Controls.MetroLabel labelWinChance;
+        private MetroFramework.Controls.MetroLabel labelAxisMin;
+        private MetroFramework.Controls.MetroLabel labelAxisMax;
     }
 }

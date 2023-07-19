@@ -26,6 +26,16 @@ namespace SublimeDiceUI
 
         private bool isRollOver = false;
 
+        private string textBoxString_Multiplier = "";
+        private string textBoxString_WinChance = "";
+
+        private Keys[] validNumericKeys =
+        {
+            Keys.D1, Keys.D2, Keys.D3, Keys.D4, Keys.D5, Keys.D6, Keys.D7, Keys.D8, Keys.D9, Keys.D0,
+            Keys.NumPad1, Keys.NumPad2, Keys.NumPad3, Keys.NumPad4, Keys.NumPad5, Keys.NumPad6, Keys.NumPad7, Keys.NumPad8, Keys.NumPad9, Keys.NumPad0,
+            Keys.Enter, Keys.Return, Keys.Back, Keys.Delete
+        };
+
         public GameForm(Connection connection)
         {
             InitializeComponent();
@@ -72,6 +82,10 @@ namespace SublimeDiceUI
                 buttonLogout.Visible = true;
                 labelLogoutNotice.Visible = false;
             }
+
+            // Initialize text box and text box strings
+            textBoxString_Multiplier = textBoxRollMultiplier.Text;
+            textBoxString_WinChance = textBoxRollWinChance.Text;
         }
 
         private void pictureBoxFaucet_MouseDown(object sender, MouseEventArgs e)
@@ -279,15 +293,80 @@ namespace SublimeDiceUI
 
                 double multiplier = GetMultiplier(adjustedValue);
                 textBoxRollMultiplier.Text = multiplier.ToString("#.0000");
+
+                // Now update internal strings
+                textBoxString_Multiplier = textBoxRollMultiplier.Text;
+                textBoxString_WinChance = textBoxRollWinChance.Text;
+            }
+            else if (sender.GetType() == typeof(MetroTextBox))
+            {
+                // Determine which text box
+                MetroTextBox senderTb = (MetroTextBox)sender;
+                if (senderTb.Name == textBoxRollMultiplier.Name)
+                {
+                    // Multiplier
+
+                    int rawBoundary = GetRawBoundaryFromMultiplier(double.Parse(textBoxRollMultiplier.Text));
+
+                    // Update win chance
+                    string winChance = rawBoundary.ToString();
+                    textBoxRollWinChance.Text = winChance.Insert(winChance.Length - 2, ".") + "00";
+
+                    // Update track bar and roll over / under
+                    if (isRollOver)
+                    {
+                        int overBoundary = 9999 - rawBoundary;
+                        textBoxRollBoundary.Text = overBoundary.ToString().Insert(overBoundary.ToString().Length - 2, ".");
+                        trackBarNumber.Value = overBoundary;
+                    }
+                    else
+                    {
+                        textBoxRollBoundary.Text = rawBoundary.ToString().Insert(rawBoundary.ToString().Length - 2, ".");
+                        trackBarNumber.Value = rawBoundary;
+                    }
+                }
+                else if (senderTb.Name == textBoxRollWinChance.Name)
+                {
+                    // Win Chance
+
+                    int rawBoundary = 0;
+                    IsValidWinChanceText(textBoxRollWinChance.Text, out rawBoundary);
+
+                    // Update multiplier
+
+                    double multiplier = GetMultiplier(rawBoundary);
+                    textBoxRollMultiplier.Text = multiplier.ToString("#.0000");
+
+                    // Update track bar and roll over / under
+                    if (isRollOver)
+                    {
+                        int overBoundary = 9999 - rawBoundary;
+                        textBoxRollBoundary.Text = overBoundary.ToString().Insert(overBoundary.ToString().Length - 2, ".");
+                        trackBarNumber.Value = overBoundary;
+                    }
+                    else
+                    {
+                        textBoxRollBoundary.Text = rawBoundary.ToString().Insert(rawBoundary.ToString().Length - 2, ".");
+                        trackBarNumber.Value = rawBoundary;
+                    }
+                }
             }
 
-            // TODO: Add functionality for modification of Multiplier / Win Chance text box
             // TODO: Remember previous values and default to them in case of invalid input
         }
 
         private double GetMultiplier(int rawBoundary)
         {
             return (100 - 1) * Math.Pow(rawBoundary * 1.0 / 100, -1);
+        }
+
+        private int GetRawBoundaryFromMultiplier(double multiplier)
+        {
+            // b = ((100 - e) / m) * 100
+            // b = boundary
+            // e = house edge
+            // m = multiplier
+            return (int)(((100 - 1) * 1.0 / multiplier) * 100);
         }
 
         private void pictureBoxToggleBoundary_Click(object sender, EventArgs e)
@@ -298,6 +377,10 @@ namespace SublimeDiceUI
             if (isRollOver)
             {
                 labelRollBoundary.Text = "Roll Over";
+
+                labelAxisMin.Text = "1.99";
+                labelAxisMax.Text = "97.99";
+
                 // First reset boundaries
                 trackBarNumber.Maximum = 10000;
                 trackBarNumber.Minimum = 0;
@@ -315,6 +398,9 @@ namespace SublimeDiceUI
             {
                 labelRollBoundary.Text = "Roll Under";
 
+                labelAxisMin.Text = "2.00";
+                labelAxisMax.Text = "98.00";
+
                 // First reset boundaries
                 trackBarNumber.Maximum = 10000;
                 trackBarNumber.Minimum = 0;
@@ -330,6 +416,112 @@ namespace SublimeDiceUI
             }
 
             buttonUnselect.Focus();
+        }
+
+        private bool IsValidMultiplierText(string text, out double val)
+        {
+            val = 0;
+            return double.TryParse(text, out val) && (val >= 1.0102 && val <= 49.5000);
+        }
+
+        private string GetMultiplierString(double multiplier)
+        {
+            return multiplier.ToString("#.0000");
+        }
+
+        private bool IsValidWinChanceText(string text, out int rawBoundary)
+        {
+            rawBoundary = 0;
+            double x = 0;
+            return double.TryParse(text, out x) && (x >= 2.0 && x <= 98.0) && int.TryParse((x * 100).ToString(), out rawBoundary);
+        }
+
+        private string GetWinChanceString(int rawBoundary)
+        {
+            return rawBoundary.ToString().Insert(rawBoundary.ToString().Length - 2, ".") + "00";
+        }
+
+        private void textBoxRollMultiplier_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter || e.KeyCode == Keys.Return)
+            {
+                // Unfocus
+                e.SuppressKeyPress = true; // Avoids the ding SFX on Enter press
+                buttonUnselect.Focus();
+            }
+            /*
+            if (!validNumericKeys.Contains(e.KeyCode))
+            {
+                e.Handled = true;
+            }
+
+            double mult = 0;
+            if (IsValidMultiplierText(textBoxRollMultiplier.Text, out mult))
+            {
+                string multString = GetMultiplierString(mult);
+                textBoxRollMultiplier.Text = multString;
+
+                // Assign current value to cached string
+                textBoxString_Multiplier = multString;
+            }
+            else
+            {
+                // Revert to old value from cached string
+                textBoxRollMultiplier.Text = textBoxString_Multiplier;
+            }
+            */
+        }
+
+        private void textBoxRollWinChance_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter || e.KeyCode == Keys.Return)
+            {
+                // Unfocus
+                e.SuppressKeyPress = true; // Avoids the ding SFX on Enter press
+                buttonUnselect.Focus();
+            }
+        }
+
+        private void textBoxRollMultiplier_Leave(object sender, EventArgs e)
+        {
+            double mult = 0;
+            if (IsValidMultiplierText(textBoxRollMultiplier.Text, out mult))
+            {
+                string multString = GetMultiplierString(mult);
+                textBoxRollMultiplier.Text = multString;
+
+                // Assign current value to cached string
+                textBoxString_Multiplier = multString;
+            }
+            else
+            {
+                // Revert to old value from cached string
+                textBoxRollMultiplier.Text = textBoxString_Multiplier;
+            }
+
+            // Finally, call the update values
+            ChangeRollParameterControlDisplay(sender, e);
+        }
+
+        private void textBoxRollWinChance_Leave(object sender, EventArgs e)
+        {
+            int rawBoundary = 0;
+            if (IsValidWinChanceText(textBoxRollWinChance.Text, out rawBoundary))
+            {
+                string winChanceString = GetWinChanceString(rawBoundary);
+                textBoxRollWinChance.Text = winChanceString;
+
+                // Assign current value to cached string
+                textBoxString_WinChance = winChanceString;
+            }
+            else
+            {
+                // Revert to old value from cached string
+                textBoxRollWinChance.Text = textBoxString_WinChance;
+            }
+
+            // Finally, call the update values
+            ChangeRollParameterControlDisplay(sender, e);
         }
     }
 }
