@@ -5,10 +5,12 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MetroFramework.Controls;
 using MetroFramework.Forms;
+using Timer = System.Windows.Forms.Timer;
 
 namespace SublimeDiceUI
 {
@@ -31,6 +33,11 @@ namespace SublimeDiceUI
         private string textBoxString_WinChance = "";
         private string textBoxString_WagerAmount = "";
 
+        private Thread t_AnimateRollResult;
+        private Thread t_AnimateRollResultFinal;
+
+        private Random rng = new Random();
+
         private Keys[] validNumericKeys =
         {
             Keys.D1, Keys.D2, Keys.D3, Keys.D4, Keys.D5, Keys.D6, Keys.D7, Keys.D8, Keys.D9, Keys.D0,
@@ -46,6 +53,7 @@ namespace SublimeDiceUI
             // Unselect any button
             buttonUnselect.Location = new Point(-50, -50);
             buttonUnselect.Focus();
+            labelDebugColorValueResultLabel.Location = new Point(-50, -50);
 
             // Add event handlers for faucet image
             pictureBoxFaucet.MouseHover += pictureBoxFaucet_MouseHover;
@@ -265,6 +273,7 @@ namespace SublimeDiceUI
             buttonLogout.Enabled = !locked;
             buttonWagerDouble.Enabled = !locked;
             buttonWagerHalve.Enabled = !locked;
+            buttonWagerMax.Enabled = !locked;
             textBoxWagerAmount.Enabled = !locked;
             pictureBoxFaucet.Enabled = !locked;
         }
@@ -647,7 +656,22 @@ namespace SublimeDiceUI
             // Lock controls
             LockFormControls(true);
 
+            // Default color
+            labelRollResult.ForeColor = Color.FromArgb(170, 170, 170);
+
             // Animate label
+            if (t_AnimateRollResult != null && t_AnimateRollResult.IsAlive)
+            {
+                t_AnimateRollResult.Abort();
+            }
+
+            if (t_AnimateRollResultFinal != null && t_AnimateRollResultFinal.IsAlive)
+            {
+                t_AnimateRollResultFinal.Abort();
+            }
+
+            t_AnimateRollResult = new Thread(AnimateRandomRollResultLabel);
+            t_AnimateRollResult.Start();
 
             // Retrieve roll result
             string response = "";
@@ -658,6 +682,10 @@ namespace SublimeDiceUI
             response = responseTuple.Item1;
 
             // Stop animation
+            if (t_AnimateRollResult.IsAlive)
+            {
+                t_AnimateRollResult.Abort();
+            }
 
             // Update balance label
             this.labelStatus.Text = $"¢{connection.LoggedInUser.Balance} / {connection.LoggedInUser.Username}";
@@ -665,11 +693,14 @@ namespace SublimeDiceUI
             // Unlock controls
             LockFormControls(false);
 
+            bool isLossOrFail = false;
+
             // Check if error happened
             // Display error if it exists
             ResponseStatus responseStatus = ServerResponseHandler.GetResponseStatus(response);
             if (responseStatus != ResponseStatus.OK)
             {
+                isLossOrFail = true;
                 labelRollResult.Text = "xx.xx";
                 // Display error
                 ServerResponseHandler.DisplayMessageBox(response);
@@ -680,12 +711,74 @@ namespace SublimeDiceUI
 
                 // Update roll result label
                 labelRollResult.Text = rollResult.RolledNumberString;
+
+                isLossOrFail = !rollResult.Win;
+            }
+
+            t_AnimateRollResultFinal = new Thread(() => AnimateFinishRollResultLabel(!isLossOrFail));
+            t_AnimateRollResultFinal.Start();
+        }
+
+        private void AnimateRandomRollResultLabel()
+        {
+            while (true)
+            {
+                string randomStr = rng.Next(0, 10) + "" + rng.Next(0, 10) + "." + rng.Next(0, 10) + "" + rng.Next(0, 10);
+                if (this.InvokeRequired)
+                {
+                    this.Invoke((MethodInvoker)delegate { labelRollResult.Text = randomStr; });
+                }
+                else
+                {
+                    labelRollResult.Text = randomStr;
+                }
+
+                Thread.Sleep(16);
+            }
+        }
+
+        private void AnimateFinishRollResultLabel(bool won)
+        {
+            // Starting from 170, 170, 170 or #aaaaaa
+            // If won, set to 0, 255, 0 and then fade up R and B channels while fade down G channel
+            // If lost, do the same but with the R vs. GB channels
+            // Luckily 170 is double of 85, and 170 + 85 is 255 (so 170 is 2/3rd of 255 and 85 is 1/3rd)
+            // So this simplifies to two for loops
+
+            // Set initial color
+            labelRollResult.ForeColor = Color.FromArgb(!won ? 255 : 0, won ? 255 : 0, 0);
+
+            // Normalize primary color to 170 while increasing other channels to 85
+            for (int i = 1; i <= 85; i++)
+            {
+                Color curColor = Color.FromArgb(!won ? 255 - i : i, won ? 255 - i : i, i);
+                this.Invoke((MethodInvoker)delegate { labelRollResult.ForeColor = curColor; });
+                Thread.Sleep(4);
+            }
+
+            // Now increase final (other two) channels to 170
+            for (int i = 85; i <= 170; i++)
+            {
+                Color curColor = Color.FromArgb(!won ? 170 : i, won ? 170 : i, i);
+                this.Invoke((MethodInvoker)delegate { labelRollResult.ForeColor = curColor; });
+                Thread.Sleep(2);
             }
         }
 
         private void linkLabelVerify_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("The Fairness and Verify menu is in development.", "Coming soon!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            string body = "The Fairness and Verify menu is in development." + Environment.NewLine;
+            body += "In the mean time, here are your roll parameters:" + Environment.NewLine;
+            body += Environment.NewLine;
+            body += "Active Client Seed: " + Environment.NewLine;
+            body += connection.LoggedInUser.ClientSeed + Environment.NewLine;
+            body += Environment.NewLine;
+            body += "Active Server Seed (Hashed): " + Environment.NewLine;
+            body += connection.LoggedInUser.ServerSeedHash + Environment.NewLine;
+            body += Environment.NewLine;
+            body += "Current nonce: " + Environment.NewLine;
+            body += connection.LoggedInUser.Nonce;
+            MessageBox.Show(body, "Coming soon!", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

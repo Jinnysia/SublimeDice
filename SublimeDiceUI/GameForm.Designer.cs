@@ -64,6 +64,7 @@
             this.labelWagerProfitOnWin = new MetroFramework.Controls.MetroLabel();
             this.textBoxWagerProfitOnWin = new MetroFramework.Controls.MetroTextBox();
             this.labelRollResult = new System.Windows.Forms.Label();
+            this.labelDebugColorValueResultLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.metroStyleManager1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxProgress)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxFaucet)).BeginInit();
@@ -564,11 +565,24 @@
             this.labelRollResult.TabIndex = 31;
             this.labelRollResult.Text = "00.00";
             // 
+            // labelDebugColorValueResultLabel
+            // 
+            this.labelDebugColorValueResultLabel.AutoSize = true;
+            this.labelDebugColorValueResultLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            this.labelDebugColorValueResultLabel.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelDebugColorValueResultLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(170)))), ((int)(((byte)(170)))));
+            this.labelDebugColorValueResultLabel.Location = new System.Drawing.Point(301, 296);
+            this.labelDebugColorValueResultLabel.Name = "labelDebugColorValueResultLabel";
+            this.labelDebugColorValueResultLabel.Size = new System.Drawing.Size(82, 11);
+            this.labelDebugColorValueResultLabel.TabIndex = 33;
+            this.labelDebugColorValueResultLabel.Text = "170 170 170";
+            // 
             // GameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(480, 365);
+            this.Controls.Add(this.labelDebugColorValueResultLabel);
             this.Controls.Add(this.buttonWagerMax);
             this.Controls.Add(this.labelRollResult);
             this.Controls.Add(this.buttonRoll);
@@ -654,5 +668,6 @@
         private MetroFramework.Controls.MetroButton buttonRoll;
         private System.Windows.Forms.Label labelRollResult;
         private MetroFramework.Controls.MetroButton buttonWagerMax;
+        private System.Windows.Forms.Label labelDebugColorValueResultLabel;
     }
 }
