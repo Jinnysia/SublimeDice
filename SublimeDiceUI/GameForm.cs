@@ -23,6 +23,7 @@ namespace SublimeDiceUI
         private int faucetWaitSeconds = 0;
 
         private bool isMouseOverFaucet = false;
+        private bool isMouseOverToggleBoundary = false;
 
         private bool isRollOver = false;
 
@@ -113,6 +114,77 @@ namespace SublimeDiceUI
         {
             isMouseOverFaucet = false;
             pictureBoxFaucet.Image = Properties.Resources.Faucet_35x_Normal;
+        }
+
+        private void pictureBoxToggleBoundary_MouseDown(object sender, MouseEventArgs e)
+        {
+            if ((e.Button & MouseButtons.Left) != 0)
+            {
+                pictureBoxToggleBoundary.Image = Properties.Resources.Rotate_35x_Click;
+
+                isRollOver = !isRollOver;
+                int val = trackBarNumber.Value;
+
+                if (isRollOver)
+                {
+                    labelRollBoundary.Text = "Roll Over";
+
+                    labelAxisMin.Text = "1.99";
+                    labelAxisMax.Text = "97.99";
+
+                    // First reset boundaries
+                    trackBarNumber.Maximum = 10000;
+                    trackBarNumber.Minimum = 0;
+
+                    // Change value to Over
+                    int newVal = 9999 - val;
+                    trackBarNumber.Value = newVal;
+                    trackBarNumber.Maximum = 9799;
+                    trackBarNumber.Minimum = 199;
+
+                    string newValStr = newVal.ToString();
+                    textBoxRollBoundary.Text = newValStr.Insert(newValStr.Length - 2, ".");
+                }
+                else
+                {
+                    labelRollBoundary.Text = "Roll Under";
+
+                    labelAxisMin.Text = "2.00";
+                    labelAxisMax.Text = "98.00";
+
+                    // First reset boundaries
+                    trackBarNumber.Maximum = 10000;
+                    trackBarNumber.Minimum = 0;
+
+                    // Change value to Over
+                    int newVal = 9999 - val;
+                    trackBarNumber.Value = newVal;
+                    trackBarNumber.Maximum = 9800;
+                    trackBarNumber.Minimum = 200;
+
+                    string newValStr = newVal.ToString();
+                    textBoxRollBoundary.Text = newValStr.Insert(newValStr.Length - 2, ".");
+                }
+
+                buttonUnselect.Focus();
+            }
+        }
+
+        private void pictureBoxToggleBoundary_MouseUp(object sender, MouseEventArgs e)
+        {
+            pictureBoxToggleBoundary.Image = isMouseOverToggleBoundary ? Properties.Resources.Rotate_35x_Hover : Properties.Resources.Rotate_35x_Normal;
+        }
+
+        private void pictureBoxToggleBoundary_MouseHover(object sender, EventArgs e)
+        {
+            isMouseOverToggleBoundary = true;
+            pictureBoxToggleBoundary.Image = Properties.Resources.Rotate_35x_Hover;
+        }
+
+        private void pictureBoxToggleBoundary_MouseLeave(object sender, EventArgs e)
+        {
+            isMouseOverToggleBoundary = false;
+            pictureBoxToggleBoundary.Image = Properties.Resources.Rotate_35x_Normal;
         }
 
         private void LoginForm_FormClosing(object sender, System.Windows.Forms.FormClosingEventArgs e)
@@ -367,55 +439,6 @@ namespace SublimeDiceUI
             // e = house edge
             // m = multiplier
             return (int)(((100 - 1) * 1.0 / multiplier) * 100);
-        }
-
-        private void pictureBoxToggleBoundary_Click(object sender, EventArgs e)
-        {
-            isRollOver = !isRollOver;
-            int val = trackBarNumber.Value;
-
-            if (isRollOver)
-            {
-                labelRollBoundary.Text = "Roll Over";
-
-                labelAxisMin.Text = "1.99";
-                labelAxisMax.Text = "97.99";
-
-                // First reset boundaries
-                trackBarNumber.Maximum = 10000;
-                trackBarNumber.Minimum = 0;
-
-                // Change value to Over
-                int newVal = 9999 - val;
-                trackBarNumber.Value = newVal;
-                trackBarNumber.Maximum = 9799;
-                trackBarNumber.Minimum = 199;
-
-                string newValStr = newVal.ToString();
-                textBoxRollBoundary.Text = newValStr.Insert(newValStr.Length - 2, ".");
-            }
-            else
-            {
-                labelRollBoundary.Text = "Roll Under";
-
-                labelAxisMin.Text = "2.00";
-                labelAxisMax.Text = "98.00";
-
-                // First reset boundaries
-                trackBarNumber.Maximum = 10000;
-                trackBarNumber.Minimum = 0;
-
-                // Change value to Over
-                int newVal = 9999 - val;
-                trackBarNumber.Value = newVal;
-                trackBarNumber.Maximum = 9800;
-                trackBarNumber.Minimum = 200;
-
-                string newValStr = newVal.ToString();
-                textBoxRollBoundary.Text = newValStr.Insert(newValStr.Length - 2, ".");
-            }
-
-            buttonUnselect.Focus();
         }
 
         private bool IsValidMultiplierText(string text, out double val)

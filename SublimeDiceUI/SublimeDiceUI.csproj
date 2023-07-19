@@ -351,5 +351,14 @@
   <ItemGroup>
     <None Include="Resources\Faucet-35x-Normal.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Rotate-35x-Click.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Rotate-35x-Hover.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Rotate-35x-Normal.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

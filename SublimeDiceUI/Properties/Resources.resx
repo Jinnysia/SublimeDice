@@ -310,6 +310,15 @@
   <data name="Icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Icon.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Rotate_35x_Click" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Rotate-35x-Click.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Rotate_35x_Hover" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Rotate-35x-Hover.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Rotate_35x_Normal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Rotate-35x-Normal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Spin_1s_200px" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Spin-1s-200px.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

@@ -200,12 +200,17 @@
             // 
             // pictureBoxToggleBoundary
             // 
-            this.pictureBoxToggleBoundary.Location = new System.Drawing.Point(145, 136);
+            this.pictureBoxToggleBoundary.Image = global::SublimeDiceUI.Properties.Resources.Rotate_35x_Normal;
+            this.pictureBoxToggleBoundary.Location = new System.Drawing.Point(140, 136);
             this.pictureBoxToggleBoundary.Name = "pictureBoxToggleBoundary";
             this.pictureBoxToggleBoundary.Size = new System.Drawing.Size(23, 23);
+            this.pictureBoxToggleBoundary.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxToggleBoundary.TabIndex = 11;
             this.pictureBoxToggleBoundary.TabStop = false;
-            this.pictureBoxToggleBoundary.Click += new System.EventHandler(this.pictureBoxToggleBoundary_Click);
+            this.pictureBoxToggleBoundary.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBoxToggleBoundary_MouseDown);
+            this.pictureBoxToggleBoundary.MouseLeave += new System.EventHandler(this.pictureBoxToggleBoundary_MouseLeave);
+            this.pictureBoxToggleBoundary.MouseHover += new System.EventHandler(this.pictureBoxToggleBoundary_MouseHover);
+            this.pictureBoxToggleBoundary.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBoxToggleBoundary_MouseUp);
             // 
             // textBoxRollMultiplier
             // 
