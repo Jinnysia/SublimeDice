@@ -615,5 +615,10 @@ namespace SublimeDiceUI
             UpdateProfitOnWin();
             buttonUnselect.Focus();
         }
+
+        private void buttonRoll_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
