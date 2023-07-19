@@ -52,6 +52,7 @@
             this.labelWinChance = new MetroFramework.Controls.MetroLabel();
             this.labelAxisMin = new MetroFramework.Controls.MetroLabel();
             this.labelAxisMax = new MetroFramework.Controls.MetroLabel();
+            this.labelBoundary = new MetroFramework.Controls.MetroLabel();
             ((System.ComponentModel.ISupportInitialize)(this.metroStyleManager1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxProgress)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxFaucet)).BeginInit();
@@ -354,11 +355,23 @@
             this.labelAxisMax.TextAlign = System.Drawing.ContentAlignment.TopRight;
             this.labelAxisMax.Theme = MetroFramework.MetroThemeStyle.Dark;
             // 
+            // labelBoundary
+            // 
+            this.labelBoundary.AutoSize = true;
+            this.labelBoundary.FontSize = MetroFramework.MetroLabelSize.Tall;
+            this.labelBoundary.Location = new System.Drawing.Point(192, 60);
+            this.labelBoundary.Name = "labelBoundary";
+            this.labelBoundary.Size = new System.Drawing.Size(86, 25);
+            this.labelBoundary.TabIndex = 21;
+            this.labelBoundary.Text = "Boundary";
+            this.labelBoundary.Theme = MetroFramework.MetroThemeStyle.Dark;
+            // 
             // GameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(480, 365);
+            this.Controls.Add(this.labelBoundary);
             this.Controls.Add(this.labelAxisMax);
             this.Controls.Add(this.labelAxisMin);
             this.Controls.Add(this.labelWinChance);
@@ -420,5 +433,6 @@
         private MetroFramework.Controls.MetroLabel labelWinChance;
         private MetroFramework.Controls.MetroLabel labelAxisMin;
         private MetroFramework.Controls.MetroLabel labelAxisMax;
+        private MetroFramework.Controls.MetroLabel labelBoundary;
     }
 }

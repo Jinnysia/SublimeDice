@@ -423,8 +423,6 @@ namespace SublimeDiceUI
                     }
                 }
             }
-
-            // TODO: Remember previous values and default to them in case of invalid input
         }
 
         private double GetMultiplier(int rawBoundary)
