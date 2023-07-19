@@ -39,7 +39,7 @@ namespace SublimeDiceUI
             Application.SetCompatibleTextRenderingDefault(false);
             
             SaveData saveData = new SaveData();
-            Connection connection = new Connection(saveData);
+            Connection connection = new Connection("sublimedice.com", true, saveData);
 
             if (saveData.SessionTokenFileExists())
             {
