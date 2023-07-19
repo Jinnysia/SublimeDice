@@ -38,11 +38,15 @@
             this.pictureBoxFaucet = new System.Windows.Forms.PictureBox();
             this.buttonUnselect = new MetroFramework.Controls.MetroButton();
             this.toolTipMain = new System.Windows.Forms.ToolTip(this.components);
+            this.pictureBoxToggleBoundary = new System.Windows.Forms.PictureBox();
+            this.buttonWagerHalve = new MetroFramework.Controls.MetroButton();
+            this.buttonWagerDouble = new MetroFramework.Controls.MetroButton();
+            this.buttonRoll = new MetroFramework.Controls.MetroButton();
+            this.buttonWagerMax = new MetroFramework.Controls.MetroButton();
             this.labelFaucetWaitTimer = new MetroFramework.Controls.MetroLabel();
             this.linkLabelVerify = new MetroFramework.Controls.MetroLink();
             this.trackBarNumber = new MetroFramework.Controls.MetroTrackBar();
             this.textBoxRollBoundary = new MetroFramework.Controls.MetroTextBox();
-            this.pictureBoxToggleBoundary = new System.Windows.Forms.PictureBox();
             this.textBoxRollMultiplier = new MetroFramework.Controls.MetroTextBox();
             this.labelRollMultiplierSymbol = new MetroFramework.Controls.MetroLabel();
             this.textBoxRollWinChance = new MetroFramework.Controls.MetroTextBox();
@@ -59,11 +63,7 @@
             this.labelCurrencyWagerProfit = new MetroFramework.Controls.MetroLabel();
             this.labelWagerProfitOnWin = new MetroFramework.Controls.MetroLabel();
             this.textBoxWagerProfitOnWin = new MetroFramework.Controls.MetroTextBox();
-            this.buttonWagerHalve = new MetroFramework.Controls.MetroButton();
-            this.buttonWagerDouble = new MetroFramework.Controls.MetroButton();
-            this.buttonRoll = new MetroFramework.Controls.MetroButton();
             this.labelRollResult = new System.Windows.Forms.Label();
-            this.buttonWagerMax = new MetroFramework.Controls.MetroButton();
             ((System.ComponentModel.ISupportInitialize)(this.metroStyleManager1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxProgress)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxFaucet)).BeginInit();
@@ -104,6 +104,7 @@
             this.buttonLogout.TabIndex = 5;
             this.buttonLogout.Text = "Logout";
             this.buttonLogout.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.toolTipMain.SetToolTip(this.buttonLogout, "Log out of your account and exit.");
             this.buttonLogout.UseSelectable = true;
             this.buttonLogout.Click += new System.EventHandler(this.buttonLogout_Click);
             // 
@@ -126,6 +127,7 @@
             this.pictureBoxFaucet.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pictureBoxFaucet.TabIndex = 6;
             this.pictureBoxFaucet.TabStop = false;
+            this.toolTipMain.SetToolTip(this.pictureBoxFaucet, "Utilize the faucet. Only available if your balance is low enough.");
             // 
             // buttonUnselect
             // 
@@ -136,6 +138,76 @@
             this.buttonUnselect.Text = "Unselect";
             this.buttonUnselect.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.buttonUnselect.UseSelectable = true;
+            // 
+            // pictureBoxToggleBoundary
+            // 
+            this.pictureBoxToggleBoundary.Image = global::SublimeDiceUI.Properties.Resources.Rotate_35x_Normal;
+            this.pictureBoxToggleBoundary.Location = new System.Drawing.Point(140, 136);
+            this.pictureBoxToggleBoundary.Name = "pictureBoxToggleBoundary";
+            this.pictureBoxToggleBoundary.Size = new System.Drawing.Size(23, 23);
+            this.pictureBoxToggleBoundary.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBoxToggleBoundary.TabIndex = 11;
+            this.pictureBoxToggleBoundary.TabStop = false;
+            this.toolTipMain.SetToolTip(this.pictureBoxToggleBoundary, "Switches the direction of the win condition.");
+            this.pictureBoxToggleBoundary.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBoxToggleBoundary_MouseDown);
+            this.pictureBoxToggleBoundary.MouseLeave += new System.EventHandler(this.pictureBoxToggleBoundary_MouseLeave);
+            this.pictureBoxToggleBoundary.MouseHover += new System.EventHandler(this.pictureBoxToggleBoundary_MouseHover);
+            this.pictureBoxToggleBoundary.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBoxToggleBoundary_MouseUp);
+            // 
+            // buttonWagerHalve
+            // 
+            this.buttonWagerHalve.FontSize = MetroFramework.MetroButtonSize.Medium;
+            this.buttonWagerHalve.FontWeight = MetroFramework.MetroButtonWeight.Regular;
+            this.buttonWagerHalve.Location = new System.Drawing.Point(101, 176);
+            this.buttonWagerHalve.Name = "buttonWagerHalve";
+            this.buttonWagerHalve.Size = new System.Drawing.Size(25, 23);
+            this.buttonWagerHalve.TabIndex = 28;
+            this.buttonWagerHalve.Text = "½";
+            this.buttonWagerHalve.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.toolTipMain.SetToolTip(this.buttonWagerHalve, "Halve your current bet amount.");
+            this.buttonWagerHalve.UseSelectable = true;
+            this.buttonWagerHalve.Click += new System.EventHandler(this.buttonWagerHalve_Click);
+            // 
+            // buttonWagerDouble
+            // 
+            this.buttonWagerDouble.FontSize = MetroFramework.MetroButtonSize.Medium;
+            this.buttonWagerDouble.FontWeight = MetroFramework.MetroButtonWeight.Regular;
+            this.buttonWagerDouble.Location = new System.Drawing.Point(132, 176);
+            this.buttonWagerDouble.Name = "buttonWagerDouble";
+            this.buttonWagerDouble.Size = new System.Drawing.Size(25, 23);
+            this.buttonWagerDouble.TabIndex = 29;
+            this.buttonWagerDouble.Text = "2x";
+            this.buttonWagerDouble.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.toolTipMain.SetToolTip(this.buttonWagerDouble, "Double your current bet amount.");
+            this.buttonWagerDouble.UseSelectable = true;
+            this.buttonWagerDouble.Click += new System.EventHandler(this.buttonWagerDouble_Click);
+            // 
+            // buttonRoll
+            // 
+            this.buttonRoll.FontSize = MetroFramework.MetroButtonSize.Tall;
+            this.buttonRoll.Location = new System.Drawing.Point(232, 197);
+            this.buttonRoll.Name = "buttonRoll";
+            this.buttonRoll.Size = new System.Drawing.Size(220, 50);
+            this.buttonRoll.TabIndex = 32;
+            this.buttonRoll.Text = "Roll Dice";
+            this.buttonRoll.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.toolTipMain.SetToolTip(this.buttonRoll, "Roll the dice with the given parameters.");
+            this.buttonRoll.UseSelectable = true;
+            this.buttonRoll.Click += new System.EventHandler(this.buttonRoll_Click);
+            // 
+            // buttonWagerMax
+            // 
+            this.buttonWagerMax.FontSize = MetroFramework.MetroButtonSize.Medium;
+            this.buttonWagerMax.FontWeight = MetroFramework.MetroButtonWeight.Regular;
+            this.buttonWagerMax.Location = new System.Drawing.Point(163, 176);
+            this.buttonWagerMax.Name = "buttonWagerMax";
+            this.buttonWagerMax.Size = new System.Drawing.Size(25, 23);
+            this.buttonWagerMax.TabIndex = 30;
+            this.buttonWagerMax.Text = "!!!";
+            this.buttonWagerMax.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.toolTipMain.SetToolTip(this.buttonWagerMax, "Bet your entire balance.");
+            this.buttonWagerMax.UseSelectable = true;
+            this.buttonWagerMax.Click += new System.EventHandler(this.buttonWagerMax_Click);
             // 
             // labelFaucetWaitTimer
             // 
@@ -210,20 +282,6 @@
             this.textBoxRollBoundary.UseSelectable = true;
             this.textBoxRollBoundary.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.textBoxRollBoundary.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
-            // 
-            // pictureBoxToggleBoundary
-            // 
-            this.pictureBoxToggleBoundary.Image = global::SublimeDiceUI.Properties.Resources.Rotate_35x_Normal;
-            this.pictureBoxToggleBoundary.Location = new System.Drawing.Point(140, 136);
-            this.pictureBoxToggleBoundary.Name = "pictureBoxToggleBoundary";
-            this.pictureBoxToggleBoundary.Size = new System.Drawing.Size(23, 23);
-            this.pictureBoxToggleBoundary.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBoxToggleBoundary.TabIndex = 11;
-            this.pictureBoxToggleBoundary.TabStop = false;
-            this.pictureBoxToggleBoundary.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBoxToggleBoundary_MouseDown);
-            this.pictureBoxToggleBoundary.MouseLeave += new System.EventHandler(this.pictureBoxToggleBoundary_MouseLeave);
-            this.pictureBoxToggleBoundary.MouseHover += new System.EventHandler(this.pictureBoxToggleBoundary_MouseHover);
-            this.pictureBoxToggleBoundary.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBoxToggleBoundary_MouseUp);
             // 
             // textBoxRollMultiplier
             // 
@@ -494,44 +552,6 @@
             this.textBoxWagerProfitOnWin.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.textBoxWagerProfitOnWin.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
-            // buttonWagerHalve
-            // 
-            this.buttonWagerHalve.FontSize = MetroFramework.MetroButtonSize.Medium;
-            this.buttonWagerHalve.FontWeight = MetroFramework.MetroButtonWeight.Regular;
-            this.buttonWagerHalve.Location = new System.Drawing.Point(101, 176);
-            this.buttonWagerHalve.Name = "buttonWagerHalve";
-            this.buttonWagerHalve.Size = new System.Drawing.Size(25, 23);
-            this.buttonWagerHalve.TabIndex = 28;
-            this.buttonWagerHalve.Text = "½";
-            this.buttonWagerHalve.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.buttonWagerHalve.UseSelectable = true;
-            this.buttonWagerHalve.Click += new System.EventHandler(this.buttonWagerHalve_Click);
-            // 
-            // buttonWagerDouble
-            // 
-            this.buttonWagerDouble.FontSize = MetroFramework.MetroButtonSize.Medium;
-            this.buttonWagerDouble.FontWeight = MetroFramework.MetroButtonWeight.Regular;
-            this.buttonWagerDouble.Location = new System.Drawing.Point(132, 176);
-            this.buttonWagerDouble.Name = "buttonWagerDouble";
-            this.buttonWagerDouble.Size = new System.Drawing.Size(25, 23);
-            this.buttonWagerDouble.TabIndex = 29;
-            this.buttonWagerDouble.Text = "2x";
-            this.buttonWagerDouble.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.buttonWagerDouble.UseSelectable = true;
-            this.buttonWagerDouble.Click += new System.EventHandler(this.buttonWagerDouble_Click);
-            // 
-            // buttonRoll
-            // 
-            this.buttonRoll.FontSize = MetroFramework.MetroButtonSize.Tall;
-            this.buttonRoll.Location = new System.Drawing.Point(232, 197);
-            this.buttonRoll.Name = "buttonRoll";
-            this.buttonRoll.Size = new System.Drawing.Size(220, 50);
-            this.buttonRoll.TabIndex = 32;
-            this.buttonRoll.Text = "Roll Dice";
-            this.buttonRoll.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.buttonRoll.UseSelectable = true;
-            this.buttonRoll.Click += new System.EventHandler(this.buttonRoll_Click);
-            // 
             // labelRollResult
             // 
             this.labelRollResult.AutoSize = true;
@@ -543,19 +563,6 @@
             this.labelRollResult.Size = new System.Drawing.Size(149, 43);
             this.labelRollResult.TabIndex = 31;
             this.labelRollResult.Text = "00.00";
-            // 
-            // buttonWagerMax
-            // 
-            this.buttonWagerMax.FontSize = MetroFramework.MetroButtonSize.Medium;
-            this.buttonWagerMax.FontWeight = MetroFramework.MetroButtonWeight.Regular;
-            this.buttonWagerMax.Location = new System.Drawing.Point(163, 176);
-            this.buttonWagerMax.Name = "buttonWagerMax";
-            this.buttonWagerMax.Size = new System.Drawing.Size(25, 23);
-            this.buttonWagerMax.TabIndex = 30;
-            this.buttonWagerMax.Text = "!!!";
-            this.buttonWagerMax.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.buttonWagerMax.UseSelectable = true;
-            this.buttonWagerMax.Click += new System.EventHandler(this.buttonWagerMax_Click);
             // 
             // GameForm
             // 

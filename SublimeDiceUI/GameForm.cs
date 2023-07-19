@@ -89,6 +89,8 @@ namespace SublimeDiceUI
             textBoxString_Multiplier = textBoxRollMultiplier.Text;
             textBoxString_WinChance = textBoxRollWinChance.Text;
             textBoxString_WagerAmount = textBoxWagerAmount.Text;
+
+            UpdateProfitOnWin();
         }
 
         private void pictureBoxFaucet_MouseDown(object sender, MouseEventArgs e)
@@ -608,6 +610,8 @@ namespace SublimeDiceUI
             ulong curAmount = ulong.Parse(textBoxWagerAmount.Text);
             ulong profit = (ulong)(curAmount * double.Parse(textBoxRollMultiplier.Text));
             textBoxWagerProfitOnWin.Text = profit.ToString();
+
+            buttonRoll.Text = curAmount > 0 ? "Roll and Wager" : "Roll without Risk";
         }
 
         private void buttonWagerHalve_Click(object sender, EventArgs e)
