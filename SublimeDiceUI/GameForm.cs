@@ -29,6 +29,7 @@ namespace SublimeDiceUI
 
         private string textBoxString_Multiplier = "";
         private string textBoxString_WinChance = "";
+        private string textBoxString_WagerAmount = "";
 
         private Keys[] validNumericKeys =
         {
@@ -87,6 +88,7 @@ namespace SublimeDiceUI
             // Initialize text box and text box strings
             textBoxString_Multiplier = textBoxRollMultiplier.Text;
             textBoxString_WinChance = textBoxRollWinChance.Text;
+            textBoxString_WagerAmount = textBoxWagerAmount.Text;
         }
 
         private void pictureBoxFaucet_MouseDown(object sender, MouseEventArgs e)
@@ -423,6 +425,9 @@ namespace SublimeDiceUI
                     }
                 }
             }
+
+            // Finally, update profit on win
+            UpdateProfitOnWin();
         }
 
         private double GetMultiplier(int rawBoundary)
@@ -460,6 +465,19 @@ namespace SublimeDiceUI
         private string GetWinChanceString(int rawBoundary)
         {
             return rawBoundary.ToString().Insert(rawBoundary.ToString().Length - 2, ".") + "00";
+        }
+
+        private bool IsValidWagerAmountText(string text, out ulong amount)
+        {
+            // Max wager of 100 bil
+            bool result = ulong.TryParse(text, out amount);
+
+            if (amount > 100000000000)
+            {
+                amount = 100000000000;
+            }
+
+            return result;
         }
 
         private void textBoxRollMultiplier_KeyDown(object sender, KeyEventArgs e)
@@ -543,6 +561,59 @@ namespace SublimeDiceUI
 
             // Finally, call the update values
             ChangeRollParameterControlDisplay(sender, e);
+        }
+
+        private void textBoxWagerAmount_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter || e.KeyCode == Keys.Return)
+            {
+                // Unfocus
+                e.SuppressKeyPress = true; // Avoids the ding SFX on Enter press
+                buttonUnselect.Focus();
+            }
+        }
+
+        private void textBoxWagerAmount_Leave(object sender, EventArgs e)
+        {
+            // TODO: Add commas to wager amount / profit text boxes for added readability
+            ulong amount = 0;
+            if (IsValidWagerAmountText(textBoxWagerAmount.Text, out amount))
+            {
+                textBoxWagerAmount.Text = amount.ToString();
+
+                // Assign current value to cached string
+                textBoxString_WagerAmount = amount.ToString();
+            }
+            else
+            {
+                textBoxWagerAmount.Text = textBoxString_WagerAmount;
+            }
+
+            UpdateProfitOnWin();
+        }
+
+        private void UpdateProfitOnWin()
+        {
+            ulong curAmount = ulong.Parse(textBoxWagerAmount.Text);
+            ulong profit = (ulong)(curAmount * double.Parse(textBoxRollMultiplier.Text));
+            textBoxWagerProfitOnWin.Text = profit.ToString();
+        }
+
+        private void buttonWagerHalve_Click(object sender, EventArgs e)
+        {
+            textBoxWagerAmount.Text = (ulong.Parse(textBoxWagerAmount.Text) / 2).ToString();
+            UpdateProfitOnWin();
+            buttonUnselect.Focus();
+        }
+
+        private void buttonWagerDouble_Click(object sender, EventArgs e)
+        {
+            string potentialText = (ulong.Parse(textBoxWagerAmount.Text) * 2).ToString();
+            ulong newAmount = 0;
+            IsValidWagerAmountText(potentialText, out newAmount);
+            textBoxWagerAmount.Text = newAmount.ToString();
+            UpdateProfitOnWin();
+            buttonUnselect.Focus();
         }
     }
 }

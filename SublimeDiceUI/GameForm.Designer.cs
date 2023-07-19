@@ -53,6 +53,14 @@
             this.labelAxisMin = new MetroFramework.Controls.MetroLabel();
             this.labelAxisMax = new MetroFramework.Controls.MetroLabel();
             this.labelBoundary = new MetroFramework.Controls.MetroLabel();
+            this.labelWagerAmount = new MetroFramework.Controls.MetroLabel();
+            this.textBoxWagerAmount = new MetroFramework.Controls.MetroTextBox();
+            this.labelCurrencyWagerAmount = new MetroFramework.Controls.MetroLabel();
+            this.labelCurrencyWagerProfit = new MetroFramework.Controls.MetroLabel();
+            this.labelWagerProfitOnWin = new MetroFramework.Controls.MetroLabel();
+            this.textBoxWagerProfitOnWin = new MetroFramework.Controls.MetroTextBox();
+            this.buttonWagerHalve = new MetroFramework.Controls.MetroButton();
+            this.buttonWagerDouble = new MetroFramework.Controls.MetroButton();
             ((System.ComponentModel.ISupportInitialize)(this.metroStyleManager1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxProgress)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxFaucet)).BeginInit();
@@ -366,11 +374,161 @@
             this.labelBoundary.Text = "Boundary";
             this.labelBoundary.Theme = MetroFramework.MetroThemeStyle.Dark;
             // 
+            // labelWagerAmount
+            // 
+            this.labelWagerAmount.AutoSize = true;
+            this.labelWagerAmount.Location = new System.Drawing.Point(23, 180);
+            this.labelWagerAmount.Name = "labelWagerAmount";
+            this.labelWagerAmount.Size = new System.Drawing.Size(79, 19);
+            this.labelWagerAmount.TabIndex = 23;
+            this.labelWagerAmount.Text = "Bet Amount";
+            this.labelWagerAmount.Theme = MetroFramework.MetroThemeStyle.Dark;
+            // 
+            // textBoxWagerAmount
+            // 
+            // 
+            // 
+            // 
+            this.textBoxWagerAmount.CustomButton.Image = null;
+            this.textBoxWagerAmount.CustomButton.Location = new System.Drawing.Point(131, 1);
+            this.textBoxWagerAmount.CustomButton.Name = "";
+            this.textBoxWagerAmount.CustomButton.Size = new System.Drawing.Size(31, 31);
+            this.textBoxWagerAmount.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.textBoxWagerAmount.CustomButton.TabIndex = 1;
+            this.textBoxWagerAmount.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.textBoxWagerAmount.CustomButton.UseSelectable = true;
+            this.textBoxWagerAmount.CustomButton.Visible = false;
+            this.textBoxWagerAmount.FontSize = MetroFramework.MetroTextBoxSize.Tall;
+            this.textBoxWagerAmount.Lines = new string[] {
+        "0"};
+            this.textBoxWagerAmount.Location = new System.Drawing.Point(25, 202);
+            this.textBoxWagerAmount.MaxLength = 32767;
+            this.textBoxWagerAmount.Name = "textBoxWagerAmount";
+            this.textBoxWagerAmount.PasswordChar = '\0';
+            this.textBoxWagerAmount.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.textBoxWagerAmount.SelectedText = "";
+            this.textBoxWagerAmount.SelectionLength = 0;
+            this.textBoxWagerAmount.SelectionStart = 0;
+            this.textBoxWagerAmount.ShortcutsEnabled = true;
+            this.textBoxWagerAmount.Size = new System.Drawing.Size(163, 33);
+            this.textBoxWagerAmount.TabIndex = 22;
+            this.textBoxWagerAmount.Text = "0";
+            this.textBoxWagerAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.textBoxWagerAmount.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.textBoxWagerAmount.UseSelectable = true;
+            this.textBoxWagerAmount.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.textBoxWagerAmount.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.textBoxWagerAmount.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBoxWagerAmount_KeyDown);
+            this.textBoxWagerAmount.Leave += new System.EventHandler(this.textBoxWagerAmount_Leave);
+            // 
+            // labelCurrencyWagerAmount
+            // 
+            this.labelCurrencyWagerAmount.AutoSize = true;
+            this.labelCurrencyWagerAmount.FontSize = MetroFramework.MetroLabelSize.Tall;
+            this.labelCurrencyWagerAmount.Location = new System.Drawing.Point(190, 205);
+            this.labelCurrencyWagerAmount.Name = "labelCurrencyWagerAmount";
+            this.labelCurrencyWagerAmount.Size = new System.Drawing.Size(21, 25);
+            this.labelCurrencyWagerAmount.TabIndex = 24;
+            this.labelCurrencyWagerAmount.Text = "¢";
+            this.labelCurrencyWagerAmount.Theme = MetroFramework.MetroThemeStyle.Dark;
+            // 
+            // labelCurrencyWagerProfit
+            // 
+            this.labelCurrencyWagerProfit.AutoSize = true;
+            this.labelCurrencyWagerProfit.FontSize = MetroFramework.MetroLabelSize.Tall;
+            this.labelCurrencyWagerProfit.Location = new System.Drawing.Point(190, 272);
+            this.labelCurrencyWagerProfit.Name = "labelCurrencyWagerProfit";
+            this.labelCurrencyWagerProfit.Size = new System.Drawing.Size(21, 25);
+            this.labelCurrencyWagerProfit.TabIndex = 27;
+            this.labelCurrencyWagerProfit.Text = "¢";
+            this.labelCurrencyWagerProfit.Theme = MetroFramework.MetroThemeStyle.Dark;
+            // 
+            // labelWagerProfitOnWin
+            // 
+            this.labelWagerProfitOnWin.AutoSize = true;
+            this.labelWagerProfitOnWin.Location = new System.Drawing.Point(23, 247);
+            this.labelWagerProfitOnWin.Name = "labelWagerProfitOnWin";
+            this.labelWagerProfitOnWin.Size = new System.Drawing.Size(87, 19);
+            this.labelWagerProfitOnWin.TabIndex = 26;
+            this.labelWagerProfitOnWin.Text = "Profit on Win";
+            this.labelWagerProfitOnWin.Theme = MetroFramework.MetroThemeStyle.Dark;
+            // 
+            // textBoxWagerProfitOnWin
+            // 
+            // 
+            // 
+            // 
+            this.textBoxWagerProfitOnWin.CustomButton.Image = null;
+            this.textBoxWagerProfitOnWin.CustomButton.Location = new System.Drawing.Point(131, 1);
+            this.textBoxWagerProfitOnWin.CustomButton.Name = "";
+            this.textBoxWagerProfitOnWin.CustomButton.Size = new System.Drawing.Size(31, 31);
+            this.textBoxWagerProfitOnWin.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.textBoxWagerProfitOnWin.CustomButton.TabIndex = 1;
+            this.textBoxWagerProfitOnWin.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.textBoxWagerProfitOnWin.CustomButton.UseSelectable = true;
+            this.textBoxWagerProfitOnWin.CustomButton.Visible = false;
+            this.textBoxWagerProfitOnWin.Enabled = false;
+            this.textBoxWagerProfitOnWin.FontSize = MetroFramework.MetroTextBoxSize.Tall;
+            this.textBoxWagerProfitOnWin.Lines = new string[] {
+        "0"};
+            this.textBoxWagerProfitOnWin.Location = new System.Drawing.Point(25, 269);
+            this.textBoxWagerProfitOnWin.MaxLength = 32767;
+            this.textBoxWagerProfitOnWin.Name = "textBoxWagerProfitOnWin";
+            this.textBoxWagerProfitOnWin.PasswordChar = '\0';
+            this.textBoxWagerProfitOnWin.ReadOnly = true;
+            this.textBoxWagerProfitOnWin.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.textBoxWagerProfitOnWin.SelectedText = "";
+            this.textBoxWagerProfitOnWin.SelectionLength = 0;
+            this.textBoxWagerProfitOnWin.SelectionStart = 0;
+            this.textBoxWagerProfitOnWin.ShortcutsEnabled = true;
+            this.textBoxWagerProfitOnWin.Size = new System.Drawing.Size(163, 33);
+            this.textBoxWagerProfitOnWin.TabIndex = 25;
+            this.textBoxWagerProfitOnWin.Text = "0";
+            this.textBoxWagerProfitOnWin.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.textBoxWagerProfitOnWin.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.textBoxWagerProfitOnWin.UseSelectable = true;
+            this.textBoxWagerProfitOnWin.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.textBoxWagerProfitOnWin.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            // 
+            // buttonWagerHalve
+            // 
+            this.buttonWagerHalve.FontSize = MetroFramework.MetroButtonSize.Medium;
+            this.buttonWagerHalve.FontWeight = MetroFramework.MetroButtonWeight.Regular;
+            this.buttonWagerHalve.Location = new System.Drawing.Point(120, 176);
+            this.buttonWagerHalve.Name = "buttonWagerHalve";
+            this.buttonWagerHalve.Size = new System.Drawing.Size(31, 23);
+            this.buttonWagerHalve.TabIndex = 28;
+            this.buttonWagerHalve.Text = "½";
+            this.buttonWagerHalve.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.buttonWagerHalve.UseSelectable = true;
+            this.buttonWagerHalve.Click += new System.EventHandler(this.buttonWagerHalve_Click);
+            // 
+            // buttonWagerDouble
+            // 
+            this.buttonWagerDouble.FontSize = MetroFramework.MetroButtonSize.Medium;
+            this.buttonWagerDouble.FontWeight = MetroFramework.MetroButtonWeight.Regular;
+            this.buttonWagerDouble.Location = new System.Drawing.Point(157, 176);
+            this.buttonWagerDouble.Name = "buttonWagerDouble";
+            this.buttonWagerDouble.Size = new System.Drawing.Size(31, 23);
+            this.buttonWagerDouble.TabIndex = 29;
+            this.buttonWagerDouble.Text = "2x";
+            this.buttonWagerDouble.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.buttonWagerDouble.UseSelectable = true;
+            this.buttonWagerDouble.Click += new System.EventHandler(this.buttonWagerDouble_Click);
+            // 
             // GameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(480, 365);
+            this.Controls.Add(this.buttonWagerDouble);
+            this.Controls.Add(this.buttonWagerHalve);
+            this.Controls.Add(this.labelCurrencyWagerProfit);
+            this.Controls.Add(this.labelWagerProfitOnWin);
+            this.Controls.Add(this.textBoxWagerProfitOnWin);
+            this.Controls.Add(this.labelCurrencyWagerAmount);
+            this.Controls.Add(this.labelWagerAmount);
+            this.Controls.Add(this.textBoxWagerAmount);
             this.Controls.Add(this.labelBoundary);
             this.Controls.Add(this.labelAxisMax);
             this.Controls.Add(this.labelAxisMin);
@@ -434,5 +592,13 @@
         private MetroFramework.Controls.MetroLabel labelAxisMin;
         private MetroFramework.Controls.MetroLabel labelAxisMax;
         private MetroFramework.Controls.MetroLabel labelBoundary;
+        private MetroFramework.Controls.MetroLabel labelWagerAmount;
+        private MetroFramework.Controls.MetroTextBox textBoxWagerAmount;
+        private MetroFramework.Controls.MetroLabel labelCurrencyWagerAmount;
+        private MetroFramework.Controls.MetroLabel labelCurrencyWagerProfit;
+        private MetroFramework.Controls.MetroLabel labelWagerProfitOnWin;
+        private MetroFramework.Controls.MetroTextBox textBoxWagerProfitOnWin;
+        private MetroFramework.Controls.MetroButton buttonWagerHalve;
+        private MetroFramework.Controls.MetroButton buttonWagerDouble;
     }
 }
