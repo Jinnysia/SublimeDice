@@ -29,7 +29,7 @@ Based on, and an homage to PrimeDice, SublimeDice is a dice-rolling game. While 
 * Faucet for players to start anew after irrecoverable loss
 
 ## Download
-When the application is first completed, links will be on the [Releases](https://github.com/Jinnysia/SublimeDice/releases) page. Until then, sorry 🥲
+Grab the [latest release](https://github.com/Jinnysia/SublimeDice/releases/latest) from the Releases page.
 
 ## How to Play
 [Check out the website's tutorial here](https://sublimedice.com/#tutorial).
