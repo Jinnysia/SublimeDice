@@ -70,6 +70,9 @@ namespace SublimeDiceUI
                 time.Start();
             else
                 time.Stop();
+
+            // Lock other controls
+
         }
 
         private async void buttonLogin_Click(object sender, EventArgs e)

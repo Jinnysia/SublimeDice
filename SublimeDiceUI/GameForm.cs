@@ -254,6 +254,16 @@ namespace SublimeDiceUI
                 timerProgress.Start();
             else
                 timerProgress.Stop();
+
+            // Lock main controls
+            textBoxRollMultiplier.Enabled = !locked;
+            textBoxRollWinChance.Enabled = !locked;
+            buttonRoll.Enabled = !locked;
+            buttonLogout.Enabled = !locked;
+            buttonWagerDouble.Enabled = !locked;
+            buttonWagerHalve.Enabled = !locked;
+            textBoxWagerAmount.Enabled = !locked;
+            pictureBoxFaucet.Enabled = !locked;
         }
 
         private async void GetFaucet()
@@ -618,7 +628,43 @@ namespace SublimeDiceUI
 
         private void buttonRoll_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            SendRoll();
+        }
+
+        private async void SendRoll()
+        {
+            // Lock controls
+            LockFormControls(true);
+
+            // Animate label
+
+            // Retrieve roll result
+            string response = "";
+            User user = connection.LoggedInUser;
+            Tuple<AuthenticationType, string> authMethod = user.AuthenticationMethod;
+
+            Tuple<string, Roll> responseTuple = await connection.RollDice(user.Username, authMethod.Item1, authMethod.Item2, user.ClientSeed, user.Nonce, ulong.Parse(textBoxWagerAmount.Text), ushort.Parse(textBoxRollBoundary.Text.Replace(".", "")), isRollOver);
+            response = responseTuple.Item1;
+
+            // Stop animation
+
+            Roll rollResult = responseTuple.Item2;
+
+            // Update roll result label
+            labelRollResult.Text = rollResult.RolledNumberString;
+
+            // Update balance label
+            this.labelStatus.Text = $"¢{connection.LoggedInUser.Balance} / {connection.LoggedInUser.Username}";
+
+            // Unlock controls
+            LockFormControls(false);
+
+            // Display error if it exists
+            ResponseStatus responseStatus = ServerResponseHandler.GetResponseStatus(response);
+            if (responseStatus != ResponseStatus.OK)
+            {
+                ServerResponseHandler.DisplayMessageBox(response);
+            }
         }
     }
 }

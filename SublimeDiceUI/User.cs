@@ -45,6 +45,11 @@ namespace SublimeDiceUI
             this.Balance = newBalance;
         }
 
+        public void UpdateNonce(ulong newNonce)
+        {
+            this.Nonce = newNonce;
+        }
+
         public static bool IsValidUsernameForRegistration(string username)
         {
             if (username.Length < UsernameLengthMin || username.Length > UsernameLengthMax)

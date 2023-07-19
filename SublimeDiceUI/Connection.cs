@@ -32,6 +32,7 @@ namespace SublimeDiceUI
         private const string URL_Register = "register.php";
         private const string URL_Logout = "logout.php";
         private const string URL_Faucet = "faucet.php";
+        private const string URL_Roll = "roll.php";
 
         public Connection(SaveData savedData)
         {
@@ -352,6 +353,65 @@ namespace SublimeDiceUI
             }
 
             return response;
+        }
+
+        public async Task<Tuple<string, Roll>> RollDice(string username, AuthenticationType authType, string authString, string clientSeed, ulong currentNonce, ulong betAmount, ushort betBoundary, bool isRollOver)
+        {
+            if (!IsLoggedIn)
+            {
+                throw new InvalidOperationException("Cannot execute if the user is not logged in.");
+            }
+
+            Roll roll = null;
+
+            Dictionary<string, string> body = new Dictionary<string, string>();
+            body.Add("username", username);
+            if (authType == AuthenticationType.Password)
+            {
+                body.Add("password", authString);
+            }
+            else
+            {
+                body.Add("session_token", authString);
+            }
+
+            body.Add("client_seed", clientSeed);
+            body.Add("bet_amount", betAmount + "");
+            body.Add("bet_boundary", betBoundary + "");
+            body.Add("roll_over", isRollOver ? "1" : "0");
+
+            string response = await SendPOSTRequest(URL_Roll, body);
+            // Parse additional data
+            using (JsonDocument doc = JsonDocument.Parse(response))
+            {
+                JsonElement root = doc.RootElement;
+
+                // First check status and see if it's OK
+                if (root.GetProperty("status").ToString() == "OK")
+                {
+                    ushort rolledNumber = 0;
+                    JsonElement rolled = root.GetProperty("rolled");
+                    ushort.TryParse(rolled.ToString(), out rolledNumber);
+
+                    JsonElement data = root.GetProperty("data");
+                    ulong userId = ulong.Parse(data.GetProperty("id").ToString());
+                    ulong balance = ulong.Parse(data.GetProperty("sd_balance").ToString());
+                    ulong newNonce = ulong.Parse(data.GetProperty("sd_current_nonce").ToString());
+                    string serverSeedHash = data.GetProperty("sd_current_server_seed_hash").ToString();
+
+                    roll = new Roll(userId, clientSeed, serverSeedHash, currentNonce, betBoundary, isRollOver);
+
+                    roll.SetRolledNumber(rolledNumber);
+
+                    // Update balance
+                    LoggedInUser.UpdateBalance(balance);
+
+                    // Update nonce
+                    LoggedInUser.UpdateNonce(newNonce);
+                }
+            }
+
+            return new Tuple<string, Roll>(response, roll);
         }
     }
 }

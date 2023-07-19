@@ -112,6 +112,7 @@
     <Compile Include="LoginForm.Designer.cs">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Roll.cs" />
     <Compile Include="SaveData.cs" />
     <Compile Include="ServerResponseHandler.cs" />
     <Compile Include="Program.cs" />

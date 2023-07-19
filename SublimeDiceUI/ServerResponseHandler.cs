@@ -48,6 +48,36 @@ namespace SublimeDiceUI
             return JsonSerializer.Serialize(response);
         }
 
+        public static ResponseStatus GetResponseStatus(string response)
+        {
+            ResponseStatus result = ResponseStatus.Undefined;
+            using (JsonDocument doc = JsonDocument.Parse(response))
+            {
+                JsonElement root = doc.RootElement;
+
+                string status = root.GetProperty("status").ToString();
+
+                if (status == "OK")
+                {
+                    result = ResponseStatus.OK;
+                }
+                else if (status == "NG-W")
+                {
+                    result = ResponseStatus.Warning;
+                }
+                else if (status == "NG-E")
+                {
+                    result = ResponseStatus.Error;
+                }
+                else if (status == "NG-C" || status == "NG-G")
+                {
+                    result = ResponseStatus.ConnectionError;
+                }
+            }
+
+            return result;
+        }
+
         public static ResponseStatus DisplayMessageBox(string response)
         {
             ResponseStatus result = ResponseStatus.Undefined;
