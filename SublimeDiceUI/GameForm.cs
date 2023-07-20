@@ -617,7 +617,7 @@ namespace SublimeDiceUI
         private void UpdateProfitOnWin()
         {
             ulong curAmount = ulong.Parse(textBoxWagerAmount.Text);
-            ulong profit = (ulong)(curAmount * double.Parse(textBoxRollMultiplier.Text));
+            ulong profit = (ulong)(curAmount * double.Parse(textBoxRollMultiplier.Text)) - curAmount;
             textBoxWagerProfitOnWin.Text = profit.ToString();
 
             buttonRoll.Text = curAmount > 0 ? "Roll and Wager" : "Roll without Risk";
@@ -642,7 +642,9 @@ namespace SublimeDiceUI
 
         private void buttonWagerMax_Click(object sender, EventArgs e)
         {
-            textBoxWagerAmount.Text = connection.LoggedInUser.Balance.ToString();
+            ulong amount = 0;
+            IsValidWagerAmountText(connection.LoggedInUser.Balance.ToString(), out amount);
+            textBoxWagerAmount.Text = amount.ToString();
             UpdateProfitOnWin();
         }
 
