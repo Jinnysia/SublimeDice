@@ -38,6 +38,9 @@ namespace SublimeDiceUI
 
         private Random rng = new Random();
 
+        private ulong countWins = 0;
+        private ulong countLosses = 0;
+
         private Keys[] validNumericKeys =
         {
             Keys.D1, Keys.D2, Keys.D3, Keys.D4, Keys.D5, Keys.D6, Keys.D7, Keys.D8, Keys.D9, Keys.D0,
@@ -617,7 +620,7 @@ namespace SublimeDiceUI
         private void UpdateProfitOnWin()
         {
             ulong curAmount = ulong.Parse(textBoxWagerAmount.Text);
-            ulong profit = (ulong)(curAmount * double.Parse(textBoxRollMultiplier.Text)) - curAmount;
+            ulong profit = (ulong)(curAmount * double.Parse(textBoxRollMultiplier.Text));
             textBoxWagerProfitOnWin.Text = profit.ToString();
 
             buttonRoll.Text = curAmount > 0 ? "Roll and Wager" : "Roll without Risk";
@@ -715,6 +718,16 @@ namespace SublimeDiceUI
                 labelRollResult.Text = rollResult.RolledNumberString;
 
                 isLossOrFail = !rollResult.Win;
+                if (rollResult.Win)
+                {
+                    countWins++;
+                    labelWins.Text = countWins + "";
+                }
+                else
+                {
+                    countLosses++;
+                    labelLosses.Text = countLosses + "";
+                }
             }
 
             t_AnimateRollResultFinal = new Thread(() => AnimateFinishRollResultLabel(!isLossOrFail));

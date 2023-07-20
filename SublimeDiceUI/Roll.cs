@@ -54,7 +54,7 @@ namespace SublimeDiceUI
             }
 
             // Three or four digits
-            return rawRolledNumber.ToString().Insert(rawRolledNumber < 1000 ? 1 : 2, ".");
+            return (rawRolledNumber < 1000 ? "0" : "") + rawRolledNumber.ToString().Insert(rawRolledNumber < 1000 ? 1 : 2, ".");
         }
     }
 }

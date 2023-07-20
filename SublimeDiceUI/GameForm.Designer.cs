@@ -65,6 +65,8 @@
             this.textBoxWagerProfitOnWin = new MetroFramework.Controls.MetroTextBox();
             this.labelRollResult = new System.Windows.Forms.Label();
             this.labelDebugColorValueResultLabel = new System.Windows.Forms.Label();
+            this.labelWins = new System.Windows.Forms.Label();
+            this.labelLosses = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.metroStyleManager1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxProgress)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxFaucet)).BeginInit();
@@ -577,11 +579,37 @@
             this.labelDebugColorValueResultLabel.TabIndex = 33;
             this.labelDebugColorValueResultLabel.Text = "170 170 170";
             // 
+            // labelWins
+            // 
+            this.labelWins.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            this.labelWins.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelWins.ForeColor = System.Drawing.Color.Lime;
+            this.labelWins.Location = new System.Drawing.Point(230, 176);
+            this.labelWins.Name = "labelWins";
+            this.labelWins.Size = new System.Drawing.Size(116, 15);
+            this.labelWins.TabIndex = 34;
+            this.labelWins.Text = "0";
+            this.labelWins.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+            // 
+            // labelLosses
+            // 
+            this.labelLosses.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            this.labelLosses.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelLosses.ForeColor = System.Drawing.Color.Red;
+            this.labelLosses.Location = new System.Drawing.Point(352, 176);
+            this.labelLosses.Name = "labelLosses";
+            this.labelLosses.Size = new System.Drawing.Size(100, 15);
+            this.labelLosses.TabIndex = 35;
+            this.labelLosses.Text = "0";
+            this.labelLosses.TextAlign = System.Drawing.ContentAlignment.BottomRight;
+            // 
             // GameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(480, 365);
+            this.Controls.Add(this.labelLosses);
+            this.Controls.Add(this.labelWins);
             this.Controls.Add(this.labelDebugColorValueResultLabel);
             this.Controls.Add(this.buttonWagerMax);
             this.Controls.Add(this.labelRollResult);
@@ -669,5 +697,7 @@
         private System.Windows.Forms.Label labelRollResult;
         private MetroFramework.Controls.MetroButton buttonWagerMax;
         private System.Windows.Forms.Label labelDebugColorValueResultLabel;
+        private System.Windows.Forms.Label labelWins;
+        private System.Windows.Forms.Label labelLosses;
     }
 }
